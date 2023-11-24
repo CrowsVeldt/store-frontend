@@ -2,7 +2,7 @@ import { Button, CloseButton, Image, Td, Tr } from "@chakra-ui/react";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 
-export default function CartItem(props) {
+export default function CartEntry(props) {
   const { addToCart, removeFromCart } = useContext(CartContext);
   const { product } = props;
 
@@ -23,7 +23,7 @@ export default function CartItem(props) {
             removeFromCart(product);
           }}
         >
-          {"-"}
+          -
         </Button>
         {product.quantity}
         <Button
@@ -33,17 +33,17 @@ export default function CartItem(props) {
             addToCart(product);
           }}
         >
-          {"+"}
+          +
         </Button>
       </Td>
 
-      <CloseButton
+      {/* <CloseButton
         size={"sm"}
         position={"relative"}
         right={7}
         bottom={-1}
         onClick={() => removeFromCart(product, true)}
-      />
+      /> */}
     </Tr>
   );
 }

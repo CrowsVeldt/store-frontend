@@ -11,8 +11,10 @@ import {
   ModalOverlay,
   Table,
   useDisclosure,
-  Thead,
   Tbody,
+  Tfoot,
+  Thead,
+  Td,
   Th,
   Tr,
 } from "@chakra-ui/react";
@@ -20,8 +22,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../../context/CartContext";
+import CartEntry from "../product/CartEntry";
 import { navButtonStyles } from "../../themes/componentStyles";
-import CartItem from "../product/CartItem.jsx";
 
 export default function ShoppingCartModal() {
   const [totalPrice, setTotalPrice] = useState(0);
@@ -79,10 +81,18 @@ export default function ShoppingCartModal() {
               </Thead>
               <Tbody>
                 {cartItems.map((item, index) => {
-                  return <CartItem product={item} key={index} />;
+                  return <CartEntry product={item} key={index} />;
                 })}
               </Tbody>
-              {cartItems ? `Total: $${totalPrice}` : ""}
+              <Tfoot>
+                <Tr>
+                  {cartItems ? (
+                    <Td>{`Total: $${totalPrice}`}</Td>
+                  ) : (
+                    <Td>total: $0</Td>
+                  )}
+                </Tr>
+              </Tfoot>
             </Table>
           </ModalBody>
           <ModalFooter>
