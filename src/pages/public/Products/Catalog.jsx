@@ -74,7 +74,7 @@ export default function Catalog() {
         onPageChange={handlePageChange}
       />
       <Divider />
-      {products ? (
+      {products.length > 0 ? (
         <Flex
           direction={["column", "column", "row", "row"]}
           flexWrap="wrap"
