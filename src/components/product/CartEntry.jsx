@@ -37,13 +37,13 @@ export default function CartEntry(props) {
         </Button>
       </Td>
 
-      {/* <CloseButton
+      <CloseButton
         size={"sm"}
         position={"relative"}
         right={7}
         bottom={-1}
         onClick={() => removeFromCart(product, true)}
-      /> */}
+      />
     </Tr>
   );
 }
