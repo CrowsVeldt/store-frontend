@@ -13,7 +13,6 @@ const useLogout = () => {
       await axiosPrivateRoutes.post("/users/customers/logout");
       toast.success(`Logged out`);
     } catch (error) {
-      console.log(error);
       toast.error(error.response?.data.message);
     }
   };

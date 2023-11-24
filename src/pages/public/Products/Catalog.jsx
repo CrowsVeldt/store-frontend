@@ -1,12 +1,12 @@
 import { Box, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
 import localforage from "localforage";
 import axios from "../../../api/axios";
 import { CartContext } from "../../../context/CartContext";
 import ProductCard from "../../../components/product/ProductCard";
 import Pagination from "./Pagination";
-import { toast } from "react-toastify";
 
 export const getAllProducts = async () => {
   try {
@@ -31,7 +31,7 @@ export default function Catalog() {
       if (!err && val) {
         setCurrentPage(val);
       } else {
-        console.log(err);
+        // console.log(err);
       }
     });
   });
@@ -74,22 +74,26 @@ export default function Catalog() {
         onPageChange={handlePageChange}
       />
       <Divider />
-      <Flex
-        direction={["column", "column", "row", "row"]}
-        flexWrap="wrap"
-        my={6}
-        justifyContent="space-between"
-      >
-        {currentProducts.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            addToCart={addToCart}
-          >
-            {product.product_name}
-          </ProductCard>
-        ))}
-      </Flex>
+      {products ? (
+        <Flex
+          direction={["column", "column", "row", "row"]}
+          flexWrap="wrap"
+          my={6}
+          justifyContent="space-between"
+        >
+          {currentProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              addToCart={addToCart}
+            >
+              {product.product_name}
+            </ProductCard>
+          ))}
+        </Flex>
+      ) : (
+        <Text>No products found, there may be a problem on the server</Text>
+      )}
       <Pagination
         currentPage={currentPage}
         productsPerPage={productPerPage}
