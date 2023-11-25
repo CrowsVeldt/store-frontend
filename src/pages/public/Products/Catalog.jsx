@@ -1,4 +1,11 @@
-import { Box, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Flex,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -21,8 +28,8 @@ export const getAllProducts = async () => {
 };
 
 export default function Catalog() {
-  const initialProducts = useLoaderData();
-  const [products, setProducts] = useState([...initialProducts]);
+  const products = useLoaderData();
+  const [data, setData] = useState(false);
   const { addToCart } = useContext(CartContext);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -54,18 +61,14 @@ export default function Catalog() {
     });
   };
 
+  useEffect(() => {
+    if (products.length > 0) {
+      setData(true);
+    }
+  }, [products]);
+
   return (
     <Box minH="65vh" py={10} px={4}>
-      <Heading>Home</Heading>
-
-      <Text my={5}>
-        Welcomt to our online store for furniture, Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Aliquid incidunt cupiditate ipsam dolorem
-        consequuntur, quasi quidem illo fugiat aliquam, eveniet, suscipit
-        pariatur? Fugiat eius commodi, nemo aut incidunt sint dolorem. Lorem
-        ipsum dolor sit amet consectetur adipisicing elit. Laborum
-        exercitationem eveniet consequatur
-      </Text>
       <Heading my={5}>Products</Heading>
       <Pagination
         currentPage={currentPage}
@@ -74,7 +77,7 @@ export default function Catalog() {
         onPageChange={handlePageChange}
       />
       <Divider />
-      {products.length > 0 ? (
+      {data ? (
         <Flex
           direction={["column", "column", "row", "row"]}
           flexWrap="wrap"
@@ -92,7 +95,17 @@ export default function Catalog() {
           ))}
         </Flex>
       ) : (
-        <Text>No products found, there may be a problem on the server</Text>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          Loading... &nbsp;
+          <CircularProgress isIndeterminate />
+        </Box>
       )}
       <Pagination
         currentPage={currentPage}
