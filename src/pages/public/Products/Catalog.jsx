@@ -4,7 +4,6 @@ import {
   Divider,
   Flex,
   Heading,
-  Text,
 } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";

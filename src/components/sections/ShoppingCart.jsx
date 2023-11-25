@@ -22,8 +22,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../../context/CartContext";
-import CartEntry from "../product/CartEntry";
 import { navButtonStyles } from "../../themes/componentStyles";
+import CartEntry from "../product/CartEntry";
 
 export default function ShoppingCartModal() {
   const [totalPrice, setTotalPrice] = useState(0);
