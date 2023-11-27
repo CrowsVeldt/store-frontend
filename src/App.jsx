@@ -10,7 +10,6 @@ import { AuthContext } from "./context/AuthContext";
 import Root from "./pages/Root";
 import About from "./pages/public/About";
 import Blog from "./pages/public/Blog.jsx";
-import Checkout from "./pages/public/Checkout.jsx";
 import Contact from "./pages/public/Contact";
 import Login from "./pages/public/Login.jsx";
 import Catalog, { getAllProducts } from "./pages/public/Products/Catalog";
@@ -37,7 +36,6 @@ function App() {
           <Route index loader={getAllProducts} element={<Catalog />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/checkout" element={<Checkout />} />
           <Route path="/purchase" element={<PurchasePage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
