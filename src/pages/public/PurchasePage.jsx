@@ -1,15 +1,15 @@
 import {
   Box,
-  Flex,
   Button,
-  Input,
+  Flex,
   Heading,
+  Input,
   Table,
   Tbody,
-  Thead,
   Td,
-  Tr,
   Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -71,10 +71,10 @@ export default function PurchasePage() {
           }),
         }
       );
-      // setCartItems([]);
+      setCartItems([]);
       // console.log(order_status.data);
       // alert(`Your order is placed, order number: ${order_status.order_number}`);
-      // nav("/");
+      nav("/");
     } catch (error) {
       toast.error(error.response?.data.error);
     }
