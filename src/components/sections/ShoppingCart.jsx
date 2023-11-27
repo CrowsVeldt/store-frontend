@@ -102,11 +102,7 @@ export default function ShoppingCartModal() {
             <Button
               onClick={() => {
                 onClose();
-                nav("/checkout", {
-                  state: {
-                    items: cartItems,
-                  },
-                });
+                nav("/purchase");
               }}
             >
               Checkout
