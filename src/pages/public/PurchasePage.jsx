@@ -42,35 +42,38 @@ export default function PurchasePage() {
     cvv: "",
   });
 
+  // seperate user_avatar from user
+  const { user_avatar, ...userDetails } = user?.user;
+  const cartDetails = cartItems.map(
+    ({ product_image, ...restOfItem }) => restOfItem
+  );
+
   const continuePlaceOrder = async (paymentStatus) => {
     try {
       const end_point = user ? "customer-order" : "order";
 
-      const { data: order_status } = await axios.post(
-        "/orders/customer-order",
-        {
-          user: user?.user?._id,
-          customer_details: {
-            customer_name: values.name,
-            customer_email: values.email,
-            customer_phone: values.phone,
-            customer_address: {
-              street: values.street,
-              city: values.city,
-              building: values.building,
-              apartment: values.apartment,
-            },
+      const { data: order_status } = await axios.post(`/orders/${end_point}`, {
+        user: user?.user?._id,
+        customer_details: {
+          customer_name: values.name,
+          customer_email: values.email,
+          customer_phone: values.phone,
+          customer_address: {
+            street: values.street,
+            city: values.city,
+            building: values.building,
+            apartment: values.apartment,
           },
-          payment_details: paymentStatus,
-          products: cartItems.map((pr) => {
-            return {
-              product: pr._id,
-              RTP: pr.product_price,
-              quantity: pr.quantity,
-            };
-          }),
-        }
-      );
+        },
+        payment_details: paymentStatus,
+        products: cartItems.map((pr) => {
+          return {
+            product: pr._id,
+            RTP: pr.product_price,
+            quantity: pr.quantity,
+          };
+        }),
+      });
       setCartItems([]);
       // console.log(order_status.data);
       // alert(`Your order is placed, order number: ${order_status.order_number}`);
@@ -82,14 +85,23 @@ export default function PurchasePage() {
 
   const placeOrder = async (e) => {
     e.preventDefault();
+    const { credit, expDate, cvv } = paymentValues;
+
     try {
       const {
         data: { paymentStatus },
       } = await axios.post("/payments/pay", {
-        credit_number: paymentValues.credit,
+        userDetails,
+        cartDetails,
+        cartTotal: totalPrice,
+        creditNumber: credit,
+        expDate,
+        cvv,
       });
-      setPayments(paymentStatus);
-      continuePlaceOrder(paymentStatus);
+      console.log(paymentStatus);
+      // setPayments(paymentStatus);
+      window.location.href = paymentStatus.redirectUrl;
+      // continuePlaceOrder(paymentStatus);
     } catch (error) {
       toast.error(error.response?.data.message);
     }
