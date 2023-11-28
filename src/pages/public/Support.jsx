@@ -8,6 +8,7 @@ import {
   FormLabel,
   Textarea,
 } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 import { useState } from "react";
 
 export default function SupportPage(props) {
@@ -15,24 +16,31 @@ export default function SupportPage(props) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const submit = (e) => {
-    if (
-      (e.target.id =
-        ("support-form-submit-button" && e.type === "click") ||
-        e.code === "Enter")
-    ) {
+  const handleSubmit = async () => {
+    try {
       const data = {
-        name: name,
-        email: email,
+        user_name: name,
+        user_email: email,
         message: message,
       };
 
-      axios.post("/support/add-ticket", data, { withCredentials: true });
+      const request = await axios.post(
+        "/mailer/send-tech-support-ticket",
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      toast.success("Email sent");
+    } catch (error) {
+      toast.error("Email not sent");
     }
   };
 
   return (
-    <Box onKeyDown={submit}>
+    <Box onSubmit={handleSubmit}>
       <Heading id="support-header">Tech Support</Heading>
       <FormControl isRequired id="support-form-name-control">
         <FormLabel htmlFor="support-form-name-input">Name</FormLabel>
@@ -59,7 +67,11 @@ export default function SupportPage(props) {
         />
       </FormControl>
       <FormControl id="support-form-submit-control">
-        <Button id="support-form-submit-button" onClick={(e) => submit(e)}>
+        <Button
+          id="support-form-submit-button"
+          type={"submit"}
+          onClick={handleSubmit}
+        >
           Submit
         </Button>
       </FormControl>
