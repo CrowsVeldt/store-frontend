@@ -35,10 +35,10 @@ export default function Profile() {
     user_avatar: user?.user?.user_avatar,
     // user_password: user?.user?.user_password,
     user_address: {
-      city: user?.user?.city || "",
-      street: user?.user?.street || "",
-      building: user?.user?.building || "",
-      apartment: user?.user?.apartment || "",
+      city: user?.user?.user_address?.city || "",
+      street: user?.user?.user_address?.street || "",
+      building: user?.user?.user_address?.building || "",
+      apartment: user?.user?.user_address?.apartment || "",
     },
   });
 
@@ -162,17 +162,33 @@ export default function Profile() {
               name="city"
               type="text"
               placeholder="Enter city"
-              value={values?.user_address?.city || ""}
+              value={values.user_address?.city || ""}
               onChange={handleNestedChange}
             />
           ) : (
-            user?.user?.user_city
+            values.user_address?.city
+          )}
+        </Text>
+        <Text>
+          <Text as="span" fontWeight="bold">
+            Street:{" "}
+          </Text>
+          {isEditing ? (
+            <Input
+              name="street"
+              type="text"
+              placeholder="Enter street name"
+              value={values.user_address?.street || ""}
+              onChange={handleNestedChange}
+            />
+          ) : (
+            values.user_address?.street
           )}
         </Text>
         <Text fontSize="md">
           <Text as="span" fontWeight="bold">
-            Building:
-          </Text>{" "}
+            Building:{" "}
+          </Text>
           {isEditing ? (
             <Input
               name="building"
@@ -181,13 +197,13 @@ export default function Profile() {
               placeholder="Enter your building"
             />
           ) : (
-            user?.user_address?.building
+            values.user_address?.building
           )}
         </Text>
         <Text fontSize="md">
           <Text as="span" fontWeight="bold">
-            Apartment:
-          </Text>{" "}
+            Apartment:{" "}
+          </Text>
           {isEditing ? (
             <Input
               name="apartment"
@@ -196,7 +212,7 @@ export default function Profile() {
               placeholder="Enter your apartment"
             />
           ) : (
-            user?.user_address?.apartment
+            values.user_address?.apartment
           )}
         </Text>
       </Stack>
