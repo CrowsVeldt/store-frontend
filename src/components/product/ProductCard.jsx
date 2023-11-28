@@ -34,12 +34,13 @@ export default function ({ product, addToCart }) {
               <Text w={250} fontSize="xs" overflowY="hidden" height={150}>
                 {product.product_description}
               </Text>
-              <VStack>
+              <VStack alignItems={"start"}>
                 {product.categories.map((item) => (
                   <Text
-                    bg="purple.200"
                     px={1}
+                    width={"100%"}
                     borderRadius="14%"
+                    textDecorationLine={"underline"}
                     fontSize="lg"
                     key={item?.category._id}
                   >
