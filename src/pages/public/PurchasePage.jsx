@@ -7,6 +7,7 @@ import {
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -79,7 +80,7 @@ export default function PurchasePage() {
       // alert(`Your order is placed, order number: ${order_status.order_number}`);
       nav("/");
     } catch (error) {
-      toast.error(error.response?.data.error);
+      toast.error(error.response.data.error);
     }
   };
 
@@ -97,11 +98,33 @@ export default function PurchasePage() {
         creditNumber: credit,
         expDate,
         cvv,
+
+        orderDetails: {
+          userId: user?.user?._id,
+          customer_details: {
+            customer_name: values.name,
+            customer_email: values.email,
+            customer_phone: values.phone,
+            customer_address: {
+              city: values.city,
+              street: values.street,
+              building: values.building,
+              apartment: values.apartment,
+            },
+          },
+          products: cartItems.map((pr) => {
+            return {
+              product: pr._id,
+              RTP: pr.product_price,
+              quantity: pr.quantity,
+            };
+          }),
+        },
       });
       console.log(paymentStatus);
+
       // setPayments(paymentStatus);
       window.location.href = paymentStatus.redirectUrl;
-      // continuePlaceOrder(paymentStatus);
     } catch (error) {
       toast.error(error.response?.data.message);
     }
@@ -110,14 +133,14 @@ export default function PurchasePage() {
   const handleChange = (e) => {
     setValues((prevValues) => ({
       ...prevValues,
-      [e?.target?.name]: e?.target?.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
   const handleCreditChange = (e) => {
     setPaymentValues((prevValues) => ({
       ...prevValues,
-      [e?.target?.name]: e?.target?.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -141,7 +164,7 @@ export default function PurchasePage() {
           Order Items
         </Heading>
         <Box mb={4}>
-          <Table colorScheme="black">
+          <Table variant="striped">
             <Thead>
               <Tr>
                 <Th>Product</Th>
@@ -155,7 +178,11 @@ export default function PurchasePage() {
                 <Tr key={item._id}>
                   <Td>{item.product_name}</Td>
                   <Td>${item.product_price}</Td>
-                  <Td>{item.quantity}</Td>
+                  <Td>
+                    <Text mx={1.5} as="b">
+                      {item.quantity}
+                    </Text>
+                  </Td>
                   <Td>${(item.quantity * item.product_price).toFixed(2)}</Td>
                 </Tr>
               ))}
@@ -165,9 +192,9 @@ export default function PurchasePage() {
             Cart Total: ${totalPrice}
           </Heading>
         </Box>
-        <Heading mb={4}> Customer and Shipping Details </Heading>
+        <Heading m={4}>Customer and Shipping details</Heading>
         <Box mb={4}>
-          <Flex direction="column" m={4}>
+          <Flex direction="column" mb={4}>
             <Input
               value={values.name}
               isRequired
@@ -182,7 +209,7 @@ export default function PurchasePage() {
               onChange={handleChange}
               name="email"
               placeholder="Email"
-              type="Email"
+              type="email"
               mb={2}
             />
             <Input
@@ -198,7 +225,7 @@ export default function PurchasePage() {
               isRequired
               onChange={handleChange}
               name="street"
-              placeholder="Street"
+              placeholder="Street Address"
               mb={2}
             />
             <Input
@@ -227,7 +254,7 @@ export default function PurchasePage() {
             />
           </Flex>
         </Box>
-        <Heading m={4}>Payment Details</Heading>
+        <Heading m={4}>Credit Card Details</Heading>
         <Box mb={4}>
           <Flex direction="column" mb={4}>
             <Input
@@ -235,8 +262,10 @@ export default function PurchasePage() {
               isRequired
               onChange={handleCreditChange}
               name="credit"
-              placeholder="Credit Card Number"
+              placeholder="Card Number"
               mb={2}
+              min={8}
+              max={16}
             />
             <Input
               value={paymentValues.expDate}
@@ -256,7 +285,9 @@ export default function PurchasePage() {
             />
           </Flex>
         </Box>
-        <Button type="submit">Place Order</Button>
+        <Button type="submit" colorScheme="teal">
+          Place Order
+        </Button>
       </Box>
     </form>
   );
