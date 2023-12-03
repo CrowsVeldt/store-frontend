@@ -25,6 +25,8 @@ import AdminProductPage from "./pages/admin/AdminProductPage.jsx";
 import PasswordReset from "./pages/public/PasswordReset.jsx";
 import ForgotPassword from "./pages/public/ForgotPassword.jsx";
 import PurchasePage from "./pages/public/PurchasePage.jsx";
+import SuccessPage from "./pages/public/SuccessPage.jsx";
+import RejectedPage from "./pages/public/RejectedPage.jsx";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -37,6 +39,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/purchase" element={<PurchasePage />} />
+          <Route path="/successful-payment" element={<SuccessPage />} />
+          <Route path="/rejected-payment" element={<RejectedPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
