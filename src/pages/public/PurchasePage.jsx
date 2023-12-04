@@ -75,12 +75,13 @@ export default function PurchasePage() {
           };
         }),
       });
-      setCartItems([]);
-      // console.log(order_status.data);
-      // alert(`Your order is placed, order number: ${order_status.order_number}`);
-      nav("/");
+      if (paymentStatus.redirectUrl !== "") {
+        return (window.location.href = paymentStatus.redirectUrl);
+      }
+      return nav(`/success-payment?token=${paymentStatus.token}`);
     } catch (error) {
       toast.error(error.response.data.error);
+      nav("/rejected-payment");
     }
   };
 
