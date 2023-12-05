@@ -31,6 +31,8 @@ export const getAllProducts = async () => {
   }
 };
 
+export const productsPerPage = 6;
+
 export default function Catalog() {
   const initialProducts = useLoaderData();
   const [products, setProducts] = useState([...initialProducts]);
@@ -67,9 +69,8 @@ export default function Catalog() {
     }
   }, [products]);
 
-  const productPerPage = 6;
-  const indexOfLastProduct = currentPage * productPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productPerPage;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(
     indexOfFirstProduct,
     indexOfLastProduct
@@ -94,7 +95,7 @@ export default function Catalog() {
       <Heading my={5}>Products</Heading>
       <InputGroup maxW={480}>
         <Input
-          placeholder="search by name or description"
+          placeholder="Search by name or description"
           value={searchTerm}
           onChange={onHandleSearchChange}
         />
@@ -104,7 +105,7 @@ export default function Catalog() {
       </InputGroup>
       <Pagination
         currentPage={currentPage}
-        productsPerPage={productPerPage}
+        productsPerPage={productsPerPage}
         totalProducts={products.length}
         onPageChange={handlePageChange}
       />
@@ -141,7 +142,7 @@ export default function Catalog() {
       )}
       <Pagination
         currentPage={currentPage}
-        productsPerPage={productPerPage}
+        productsPerPage={productsPerPage}
         totalProducts={products.length}
         onPageChange={handlePageChange}
       />

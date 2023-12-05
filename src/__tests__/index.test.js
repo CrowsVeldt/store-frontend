@@ -1,5 +1,7 @@
-import { expect } from "vitest";
+import { describe, expect } from "vitest";
 
-test("empty test", () => {
-  expect(1).toBe(1);
+describe("Test vitest", () => {
+  test("empty test", () => {
+    expect(1).toBe(1);
+  });
 });

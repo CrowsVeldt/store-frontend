@@ -12,6 +12,14 @@ export default function Pagination({
     onPageChange(page);
   };
 
+  const goToPreviousPage = () => {
+    onPageChange((page) => (page > 1 ? page - 1 : page));
+  };
+
+  const goToNextPage = () => {
+    onPageChange((page) => (page < totalPages ? page + 1 : page));
+  };
+
   const renderPaginationButtons = () => {
     const buttons = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -30,7 +38,13 @@ export default function Pagination({
 
   return (
     <Box>
-      <ButtonGroup spacing={2}>{renderPaginationButtons()}</ButtonGroup>
+      <ButtonGroup spacing={2}>
+        {currentPage > 1 && <Button onClick={goToPreviousPage}>{"<<"}</Button>}
+        {renderPaginationButtons()}
+        {currentPage < totalPages && (
+          <Button onClick={goToNextPage}>{">>"}</Button>
+        )}
+      </ButtonGroup>
     </Box>
   );
 }

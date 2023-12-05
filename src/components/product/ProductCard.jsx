@@ -14,11 +14,11 @@ import {
 import { Link } from "react-router-dom";
 
 export default function ({ product, addToCart }) {
+  const categories = product.categories || [];
+
   return (
     <Flex mx="auto" direction="column" maxW="80%">
-      {" "}
       <Flex minH="65vh" maxW="100%" mx="auto" py={10} px={4}>
-        {" "}
         <Card>
           <CardBody>
             <Chlink as={Link} to={`/product/${product._id}`}>
@@ -30,12 +30,20 @@ export default function ({ product, addToCart }) {
               />
             </Chlink>
             <Stack mt="6" spacing="2">
-              <Heading size="sm">{product.product_name}</Heading>
-              <Text w={250} fontSize="xs" overflowY="hidden" height={150}>
+              <Heading as={"h3"} size="sm">
+                {product.product_name}
+              </Heading>
+              <Text
+                w={250}
+                fontSize="xs"
+                overflowY="hidden"
+                height={150}
+                data-testid={"product-description"}
+              >
                 {product.product_description}
               </Text>
               <VStack alignItems={"start"}>
-                {product.categories.map((item) => (
+                {categories.map((item) => (
                   <Text
                     px={1}
                     width={"100%"}
@@ -55,6 +63,7 @@ export default function ({ product, addToCart }) {
           </CardBody>
           <CardFooter>
             <Button
+              data-testid="add-to-cart"
               onClick={() => {
                 addToCart(product);
               }}
