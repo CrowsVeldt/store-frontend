@@ -95,12 +95,12 @@ describe("Products Component", () => {
         expect(BackPageButton).toBeNull();
       }
 
+      const nextPageButton = screen.queryAllByText(">>")[1];
+
       if (page < expectedPages) {
-        const nextPageButton = screen.queryAllByText(">>")[1];
         fireEvent.click(nextPageButton);
       } else {
-        const nextPageButton = screen.queryAllByText(">>")[1];
-        expect(nextPageButton).toBeNull();
+        expect(nextPageButton).toBeUndefined();
       }
     }
   });
