@@ -8,16 +8,16 @@ export default function Pagination({
 }) {
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-  const handleClick = (page) => {
+  const changePage = (page) => {
     onPageChange(page);
   };
 
-  const goToPreviousPage = () => {
-    onPageChange((page) => (page > 1 ? page - 1 : page));
+  const goToPreviousPage = (page) => {
+    onPageChange(page > 1 ? page - 1 : page);
   };
 
-  const goToNextPage = () => {
-    onPageChange((page) => (page < totalPages ? page + 1 : page));
+  const goToNextPage = (page) => {
+    onPageChange(page < totalPages ? page + 1 : page);
   };
 
   const renderPaginationButtons = () => {
@@ -26,7 +26,7 @@ export default function Pagination({
       buttons.push(
         <Button
           key={i}
-          onClick={() => handleClick(i)}
+          onClick={() => changePage(i)}
           colorScheme={currentPage === i ? "cyan" : "gray"}
         >
           {i}
@@ -39,10 +39,12 @@ export default function Pagination({
   return (
     <Box>
       <ButtonGroup spacing={2}>
-        {currentPage > 1 && <Button onClick={goToPreviousPage}>{"<<"}</Button>}
+        {currentPage > 1 && (
+          <Button onClick={() => goToPreviousPage(currentPage)}>{"<<"}</Button>
+        )}
         {renderPaginationButtons()}
         {currentPage < totalPages && (
-          <Button onClick={goToNextPage}>{">>"}</Button>
+          <Button onClick={() => goToNextPage(currentPage)}>{">>"}</Button>
         )}
       </ButtonGroup>
     </Box>
