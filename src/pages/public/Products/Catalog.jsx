@@ -19,18 +19,6 @@ import { CartContext } from "../../../context/CartContext";
 import ProductCard from "../../../components/product/ProductCard";
 import Pagination from "./Pagination";
 
-export const getAllProducts = async () => {
-  try {
-    const {
-      data: { products },
-    } = await axios.get("/products/customers/all");
-    return products;
-  } catch (error) {
-    toast.error("Failed to load products");
-    return error;
-  }
-};
-
 export const productsPerPage = 6;
 
 export default function Catalog() {
