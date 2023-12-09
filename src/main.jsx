@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
     <CartProvider>
       <AuthProvider>
+        <App />
         <ToastContainer
           position="bottom-left"
           autoClose={2000}
@@ -20,7 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           draggable
           pauseOnHover
         />
-        <App />
       </AuthProvider>
     </CartProvider>
   </ChakraProvider>
