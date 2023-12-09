@@ -7,31 +7,32 @@ import {
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "./api/axios.js";
-import ErrorPage from "./pages/ErrorElement/ErrorElement.jsx";
 import { AuthContext } from "./context/AuthContext";
-import Root from "./pages/Root";
 import About from "./pages/public/About";
-import Blog from "./pages/public/Blog.jsx";
-import Contact from "./pages/public/Contact";
-import Login from "./pages/public/Login.jsx";
-import Catalog from "./pages/public/Products/Catalog";
-import Profile from "./pages/private/Profile";
-import Register from "./pages/public/Register";
-import SupportPage from "./pages/public/Support.jsx";
+import AdminOrders from "./pages/admin/AdminOrders.jsx";
+import AdminPage from "./pages/admin/AdminPage.jsx";
+import AdminProducts from "./pages/admin/AdminProducts.jsx";
+import AdminUsers from "./pages/admin/AdminUsers.jsx";
 import AutoLogin from "./utils/AutoLogin";
+import Blog from "./pages/public/Blog.jsx";
+import Catalog from "./pages/public/Products/Catalog";
+import Contact from "./pages/public/Contact";
+import ErrorPage from "./pages/ErrorElement/ErrorElement.jsx";
+import ForgotPassword from "./pages/public/ForgotPassword.jsx";
+import Login from "./pages/public/Login.jsx";
+import Orders from "./pages/private/Orders.jsx";
+import PasswordReset from "./pages/public/PasswordReset.jsx";
+import Profile from "./pages/private/Profile";
+import PurchasePage from "./pages/public/PurchasePage.jsx";
+import Register from "./pages/public/Register";
+import RejectedPage from "./pages/public/RejectedPage.jsx";
 import RequireAuth from "./utils/RequireAuth";
+import Root from "./pages/Root";
 import SingleProductPage, {
   loader as productLoader,
 } from "./pages/public/Products/ProductPage.jsx";
-import AdminPage from "./pages/admin/AdminPage.jsx";
-import AdminUsers from "./pages/admin/AdminUsers.jsx";
-import AdminOrders from "./pages/admin/AdminOrders.jsx";
-import AdminProducts from "./pages/admin/AdminProducts.jsx";
-import PasswordReset from "./pages/public/PasswordReset.jsx";
-import ForgotPassword from "./pages/public/ForgotPassword.jsx";
-import PurchasePage from "./pages/public/PurchasePage.jsx";
 import SuccessPage from "./pages/public/SuccessPage.jsx";
-import RejectedPage from "./pages/public/RejectedPage.jsx";
+import SupportPage from "./pages/public/Support.jsx";
 
 export const getAllProducts = async () => {
   try {
@@ -66,6 +67,7 @@ function App() {
           <Route path="/forgot-password/:id" element={<ForgotPassword />} />
           <Route element={<RequireAuth user={user} />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<Orders />} />
             <Route path="/admin" element={<AdminPage />}>
               <Route
                 path="products"
