@@ -20,7 +20,7 @@ import Contact from "./pages/public/Contact";
 import ErrorPage from "./pages/ErrorElement/ErrorElement.jsx";
 import ForgotPassword from "./pages/public/ForgotPassword.jsx";
 import Login from "./pages/public/Login.jsx";
-import Orders from "./pages/private/Orders.jsx";
+import UserOrders from "./pages/private/Orders.jsx";
 import PasswordReset from "./pages/public/PasswordReset.jsx";
 import Profile from "./pages/private/Profile";
 import PurchasePage from "./pages/public/PurchasePage.jsx";
@@ -67,7 +67,7 @@ function App() {
           <Route path="/forgot-password/:id" element={<ForgotPassword />} />
           <Route element={<RequireAuth user={user} />}>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders" element={<UserOrders />} />
             <Route path="/admin" element={<AdminPage />}>
               <Route
                 path="products"
