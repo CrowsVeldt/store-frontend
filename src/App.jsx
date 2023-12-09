@@ -24,12 +24,8 @@ import SingleProductPage, {
   loader as productLoader,
 } from "./pages/public/Products/ProductPage.jsx";
 import AdminPage from "./pages/admin/AdminPage.jsx";
-import AdminUsers, {
-  loader as usersLoader,
-} from "./pages/admin/AdminUsers.jsx";
-import AdminOrders, {
-  loader as ordersLoader,
-} from "./pages/admin/AdminOrders.jsx";
+import AdminUsers from "./pages/admin/AdminUsers.jsx";
+import AdminOrders from "./pages/admin/AdminOrders.jsx";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import PasswordReset from "./pages/public/PasswordReset.jsx";
 import ForgotPassword from "./pages/public/ForgotPassword.jsx";
@@ -70,6 +66,15 @@ function App() {
           <Route path="/forgot-password/:id" element={<ForgotPassword />} />
           <Route element={<RequireAuth user={user} />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/admin" element={<AdminPage />}>
+              <Route
+                path="products"
+                loader={getAllProducts}
+                element={<AdminProducts />}
+              />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="users" element={<AdminUsers />} />
+            </Route>
           </Route>
           <Route
             path="/product/:productId"
@@ -77,19 +82,6 @@ function App() {
             loader={productLoader}
           />
           <Route path="*" element={<div>Not Found 404</div>} />
-          <Route path="/admin" element={<AdminPage />}>
-            <Route
-              path="orders"
-              loader={ordersLoader}
-              element={<AdminOrders />}
-            />
-            <Route
-              path="products"
-              loader={getAllProducts}
-              element={<AdminProducts />}
-            />
-            <Route path="users" loader={usersLoader} element={<AdminUsers />} />
-          </Route>
         </Route>
       </Route>
     )

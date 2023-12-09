@@ -7,7 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 const numberOfOrders = 20;
 
 const getAllOrders = vi.fn(() =>
-  // mock getAllUsers from AdminUsers.jsx
+  // mock getAllOrders from AdminOrders.jsx
 
   Promise.resolve(
     null
