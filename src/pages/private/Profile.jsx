@@ -4,10 +4,12 @@ import {
   Button,
   Heading,
   Input,
+  Link as Chlink,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { AuthContext } from "../../context/AuthContext";
@@ -226,6 +228,19 @@ export default function Profile() {
         </Button>
       )}
       {isEditing && <DeleteUserAlert id="Delete user popup" />}
+
+      <Chlink
+        as={Link}
+        to={"/orders"}
+        display={"block"}
+        position={"absolute"}
+        right={200}
+        top={150}
+        fontSize={23}
+        textDecoration={"underline"}
+      >
+        My orders
+      </Chlink>
     </Box>
   );
 }
