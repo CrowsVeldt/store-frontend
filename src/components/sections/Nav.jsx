@@ -66,7 +66,7 @@ export default function Nav() {
           </Chlink>
         </ButtonGroup>
         <ButtonGroup w="45%" flexDirection={["column", "row"]}>
-          <Chlink as={Link} to="/admin">
+          <Chlink as={Link} to="/admin/products">
             Admin
           </Chlink>
           {!user && (

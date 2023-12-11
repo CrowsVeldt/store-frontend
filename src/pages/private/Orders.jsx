@@ -23,7 +23,6 @@ export default function UserOrders() {
       <UnorderedList>
         {(orders.length > 0 &&
           orders.map((item) => {
-            console.log(item);
             return <ListItem>{item._id}</ListItem>;
           })) || <Text>No orders found</Text>}
       </UnorderedList>
