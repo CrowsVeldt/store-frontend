@@ -1,6 +1,7 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
+import UserItem from "../../components/users/UserItem";
 
 export default function AdminUsers() {
   const privateRoutes = useAxiosPrivate();
@@ -17,11 +18,7 @@ export default function AdminUsers() {
     <Box>
       <Heading>Users</Heading>
       {users.map((user, index) => {
-        return (
-          <Text data-testid={"user"} key={index}>
-            {user._id}
-          </Text>
-        );
+        return <UserItem user={user} key={index} />;
       })}
     </Box>
   );
