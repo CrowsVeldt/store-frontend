@@ -15,6 +15,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
+import DemoUserDropdown from "../../components/users/DemoUserDropdown";
 
 const Login = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -24,6 +25,25 @@ const Login = () => {
 
     user_password: "",
   });
+
+  const setDemoUser = (type) => {
+    if (type === 0) {
+      // fill in reqular user
+
+      setValues((prevValues) => ({
+        ...prevValues,
+        user_email: "demo-user@email.com",
+        user_password: "asd",
+      }));
+    } else {
+      // fill in admin user
+      setValues((prevValues) => ({
+        ...prevValues,
+        user_email: "demo-admin@email.com",
+        user_password: "asd",
+      }));
+    }
+  };
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,9 +101,12 @@ const Login = () => {
       py={10}
       px={4}
     >
-      <Heading as="h1" size="xl" mb={5}>
-        Login
-      </Heading>
+      <Box display={"flex"}>
+        <Heading as="h1" size="xl" mb={5}>
+          Login
+        </Heading>
+        <DemoUserDropdown action={setDemoUser} />
+      </Box>
       <FormControl isRequired mb={4}>
         <FormLabel>Email Address</FormLabel>
         <Input
