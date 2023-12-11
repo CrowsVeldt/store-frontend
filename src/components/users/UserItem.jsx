@@ -58,9 +58,9 @@ export default function UserItem({ user }) {
                   <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                  {user.user_orders.map((order) => {
+                  {user.user_orders.map((order, index) => {
                     return (
-                      <Box borderBottom={"1px solid black"}>
+                      <Box borderBottom={"1px solid black"} key={index}>
                         <Text>{`Order ID: ${order.order}`}</Text>
                       </Box>
                     );
