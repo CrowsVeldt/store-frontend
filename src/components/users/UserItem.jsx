@@ -7,14 +7,9 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+import { formatPhone } from "../../utils/utilFuncs";
 
 export default function UserItem({ user }) {
-  const phoneSegments = user.user_phone.match(/.{1,3}/g);
-  const endDigits = user.user_phone.slice(-4);
-  const formattedPhone = `(${phoneSegments[0]}) ${phoneSegments[1]}-${endDigits}`;
-
-  console.log(formattedPhone);
-
   return (
     <Box>
       <Accordion defaultIndex={[1]} allowMultiple>
@@ -30,7 +25,7 @@ export default function UserItem({ user }) {
           <AccordionPanel pb={4}>
             <Text>{`Name: ${user.user_name}`}</Text>
             <Text>{`Email: ${user.user_email}`}</Text>
-            <Text>{`Phone: ${formattedPhone}`}</Text>
+            <Text>{`Phone: ${formatPhone(user.user_phone)}`}</Text>
 
             <Accordion defaultIndex={[1]} allowMultiple>
               <AccordionItem>

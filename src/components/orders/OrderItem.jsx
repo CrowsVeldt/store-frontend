@@ -7,6 +7,7 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+import { formatPhone } from "../../utils/utilFuncs";
 
 export default function OrderItem({ order }) {
   return (
@@ -33,8 +34,29 @@ export default function OrderItem({ order }) {
                 <AccordionPanel>
                   <Text>{`Name: ${order.customer_details.customer_name}`}</Text>
                   <Text>{`Email: ${order.customer_details.customer_email}`}</Text>
-                  <Text>{`Phone: ${order.customer_details.customer_phone}`}</Text>
-                  <Text>{`Address: ${order.customer_details.customer_address}`}</Text>
+                  <Text>{`Phone: ${formatPhone(
+                    order.customer_details.customer_phone
+                  )}`}</Text>
+                  <Accordion defaultIndex={[1]} allowMultiple>
+                    <AccordionItem>
+                      <AccordionButton>
+                        <Box as="span" flex="1" textAlign="left">
+                          {`Address:`}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                      {order.customer_details.customer_address && (
+                        <AccordionPanel>
+                          <Text>{`City: ${order.customer_details.customer_address.city}`}</Text>
+                          <Text>{`Street Name: ${order.customer_details.customer_address.street}`}</Text>
+                          <Text>{`Street Number ${order.customer_details.customer_address.building}`}</Text>
+                          {order.customer_details.customer_address && (
+                            <Text>{`Apartment Number: ${order.customer_details.customer_address.apartment}`}</Text>
+                          )}
+                        </AccordionPanel>
+                      )}
+                    </AccordionItem>
+                  </Accordion>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>
@@ -67,7 +89,7 @@ export default function OrderItem({ order }) {
                 <AccordionPanel>
                   {order.products.map((product, index) => {
                     return (
-                      <Box borderBottom={"1px solid black"}>
+                      <Box borderBottom={"1px solid black"} key={index}>
                         <Text>{`Product ID: ${product.product}`}</Text>
                         <Text>{`RTP: ${product.RTP}`}</Text>
                         <Text>{`Quantity: ${product.quantity}`}</Text>
