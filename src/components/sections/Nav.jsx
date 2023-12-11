@@ -29,6 +29,7 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const logout = useLogout();
+  const isAdmin = user?.user.admin_id ? true : false;
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
@@ -66,9 +67,11 @@ export default function Nav() {
           </Chlink>
         </ButtonGroup>
         <ButtonGroup w="45%" flexDirection={["column", "row"]}>
-          <Chlink as={Link} to="/admin/products">
-            Admin
-          </Chlink>
+          {isAdmin && (
+            <Chlink as={Link} to="/admin/products">
+              Admin
+            </Chlink>
+          )}
           {!user && (
             <Chlink as={Link} to="/register">
               <Button sx={navButtonStyles} variant="outline">
