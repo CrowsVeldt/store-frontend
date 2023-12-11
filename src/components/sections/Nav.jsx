@@ -15,7 +15,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import MenuIcon from "@mui/icons-material/MenuOutlined";
+import AdminIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { AuthContext } from "../../context/AuthContext";
 import useLogout from "../../hooks/useLogout";
 import ShoppingCartModal from "./ShoppingCart";
@@ -51,7 +52,7 @@ export default function Nav() {
         size="lg"
         variant="outline"
       >
-        <Icon as={MenuOutlinedIcon} />
+        <Icon as={MenuIcon} />
       </Button>
       <Flex
         justifyContent="space-between"
@@ -67,11 +68,6 @@ export default function Nav() {
           </Chlink>
         </ButtonGroup>
         <ButtonGroup w="45%" flexDirection={["column", "row"]}>
-          {isAdmin && (
-            <Chlink as={Link} to="/admin/products">
-              Admin
-            </Chlink>
-          )}
           {!user && (
             <Chlink as={Link} to="/register">
               <Button sx={navButtonStyles} variant="outline">
@@ -97,6 +93,14 @@ export default function Nav() {
                   size={"sm"}
                 />
                 <Text ml={1}>{user?.user?.user_name}</Text>
+              </Button>
+            </Chlink>
+          )}
+          {isAdmin && (
+            <Chlink as={Link} to="/admin/products">
+              <Button sx={navButtonStyles} variant="outline">
+                <Icon ml={1} as={AdminIcon} fontSize={"3xl"} />
+                Admin
               </Button>
             </Chlink>
           )}
