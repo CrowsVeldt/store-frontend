@@ -18,7 +18,7 @@ export default function AdminOrders() {
     <Box>
       <Heading>Orders</Heading>
       {orders.map((order, index) => {
-        return <OrderItem order={order} key={index}></OrderItem>;
+        return <OrderItem order={order} key={index} />;
       })}
     </Box>
   );
