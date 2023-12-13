@@ -66,6 +66,11 @@ function App() {
           <Route path="/support" element={<SupportPage />} />
           <Route path="/password-reset" element={<PasswordReset />} />
           <Route path="/forgot-password/:id" element={<ForgotPassword />} />
+          <Route
+            path="/product/:productId"
+            element={<SingleProductPage />}
+            loader={productLoader}
+          />
           <Route element={<RequireAuth user={user} />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/orders" element={<UserOrders />} />
@@ -80,11 +85,6 @@ function App() {
               <Route path="edit/user" element={<EditUser />} />
             </Route>
           </Route>
-          <Route
-            path="/product/:productId"
-            element={<SingleProductPage />}
-            loader={productLoader}
-          />
           <Route path="*" element={<div>Not Found 404</div>} />
         </Route>
       </Route>
