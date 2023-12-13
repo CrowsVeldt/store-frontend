@@ -22,21 +22,17 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const [values, setValues] = useState({
     user_email: "",
-
     user_password: "",
   });
 
   const setDemoUser = (type) => {
     if (type === 0) {
-      // fill in reqular user
-
       setValues((prevValues) => ({
         ...prevValues,
         user_email: "demo-user@email.com",
         user_password: "asd",
       }));
     } else {
-      // fill in admin user
       setValues((prevValues) => ({
         ...prevValues,
         user_email: "demo-admin@email.com",
@@ -56,10 +52,14 @@ const Login = () => {
   };
   const from = location.state?.from?.pathname || "/";
 
-  const handleClick = () => setShow(!show);
+  const togglePassword = () => setShow(!show);
 
   useEffect(() => {
-    if (user) navigate(from, { replace: true });
+    const to = from.includes("admin") ? "/" : from;
+
+    if (user) {
+      return navigate(to, { replace: true });
+    }
   }, [user]);
 
   const handleSubmit = async (e) => {
@@ -128,7 +128,7 @@ const Login = () => {
             onChange={handleChange}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button h="1.75rem" size="sm" onClick={togglePassword}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
