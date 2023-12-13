@@ -7,40 +7,48 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { AuthContext } from "../../context/AuthContext";
 import { convertToBase64 } from "../../utils/fileFuncs";
 
-export default function Profile() {
-  const { user, setUser } = useContext(AuthContext);
-  ///const user = {};
+export default function EditUser() {
+  const location = useLocation();
+  const user = location.state;
+  const nav = useNavigate();
   const axiosPrivateRoute = useAxiosPrivate();
 
   const [values, setValues] = useState({
-    user_name: user?.user?.user_name,
-    user_email: user?.user?.user_email,
-    user_phone: user?.user?.user_phone,
-    user_avatar: user?.user?.user_avatar,
+    _id: user._id,
+    user_name: user?.user_name,
+    user_email: user?.user_email,
+    user_phone: user?.user_phone,
+    user_avatar: user?.user_avatar,
     user_address: {
-      city: user?.user?.user_address?.city || "",
-      street: user?.user?.user_address?.street || "",
-      building: user?.user?.user_address?.building || "",
-      apartment: user?.user?.user_address?.apartment || "",
+      city: user?.user_address?.city || "",
+      street: user?.user_address?.street || "",
+      building: user?.user_address?.building || "",
+      apartment: user?.user_address?.apartment || "",
     },
   });
 
   const handleSaveButton = async () => {
     try {
-      //   const response = await axiosPrivateRoute.put(
-      //     `/users/customers/${user?.user._id}`,
-      //     values
-      //   );
+      const response = await axiosPrivateRoute.patch(
+        `/admin/${user._id}/edit/user`,
+        values
+      );
 
-      setUser((prevValues) => {
-        return { ...prevValues, user: response?.data?.user };
+      setValues((prevValues) => {
+        return { ...prevValues, ...response?.data?.user };
       });
+
+      nav("/admin/edit/user", {
+        state: response.data.user,
+        replace: true,
+      });
+
       toast.success(`Updated ${values?.user_name}'s account info`);
     } catch (error) {
       toast.error(error?.response?.data?.message);
