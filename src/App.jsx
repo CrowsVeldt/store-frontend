@@ -17,6 +17,7 @@ import AutoLogin from "./utils/AutoLogin";
 import Blog from "./pages/public/Blog.jsx";
 import Catalog from "./pages/public/Products/Catalog";
 import Contact from "./pages/public/Contact";
+import EditUser from "./pages/admin/EditUserPage.jsx";
 import ErrorPage from "./pages/ErrorElement/ErrorElement.jsx";
 import ForgotPassword from "./pages/public/ForgotPassword.jsx";
 import Login from "./pages/public/Login.jsx";
@@ -76,6 +77,7 @@ function App() {
               />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="edit/user" element={<EditUser />} />
             </Route>
           </Route>
           <Route
