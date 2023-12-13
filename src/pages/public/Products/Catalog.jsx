@@ -63,6 +63,7 @@ export default function Catalog() {
   );
 
   const onHandleSearchChange = (e) => {
+    handlePageChange(1);
     setSearchTerm(e.target.value);
   };
 
