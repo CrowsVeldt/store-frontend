@@ -11,9 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
-import { toast } from "react-toastify";
 import localforage from "localforage";
-import axios from "../../../api/axios";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { CartContext } from "../../../context/CartContext";
 import ProductCard from "../../../components/product/ProductCard";

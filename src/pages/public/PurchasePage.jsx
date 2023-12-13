@@ -25,7 +25,6 @@ export default function PurchasePage() {
   const nav = useNavigate();
   const [totalPrice, setTotalPrice] = useState(null);
   const [totalProducts, setTotalProducts] = useState(null);
-  const [payments, setPayments] = useState(null);
 
   const [values, setValues] = useState({
     name: user?.user?.user_name || "",
@@ -36,54 +35,22 @@ export default function PurchasePage() {
     building: user?.user?.user_address.building || "",
     apartment: user?.user?.user_address.apartment || "",
   });
-
   const [paymentValues, setPaymentValues] = useState({
     credit: "",
     expDate: "",
     cvv: "",
   });
-
-  // seperate user_avatar from user
-  const { user_avatar, ...userDetails } = user?.user;
   const cartDetails = cartItems.map(
     ({ product_image, ...restOfItem }) => restOfItem
   );
 
-  const continuePlaceOrder = async (paymentStatus) => {
-    try {
-      const end_point = user ? "customer-order" : "order";
+  // seperate user_avatar from user
+  const { user_avatar, ...userDetails } = user ? user : { userId: "no-user" };
 
-      const { data: order_status } = await axios.post(`/orders/${end_point}`, {
-        user: user?.user?._id,
-        customer_details: {
-          customer_name: values.name,
-          customer_email: values.email,
-          customer_phone: values.phone,
-          customer_address: {
-            street: values.street,
-            city: values.city,
-            building: values.building,
-            apartment: values.apartment,
-          },
-        },
-        payment_details: paymentStatus,
-        products: cartItems.map((pr) => {
-          return {
-            product: pr._id,
-            RTP: pr.product_price,
-            quantity: pr.quantity,
-          };
-        }),
-      });
-      if (paymentStatus.redirectUrl !== "") {
-        return (window.location.href = paymentStatus.redirectUrl);
-      }
-      return nav(`/success-payment?token=${paymentStatus.token}`);
-    } catch (error) {
-      toast.error(error.response.data.error);
-      nav("/rejected-payment");
-    }
-  };
+  if (userDetails.userId === "no-user") {
+    toast.warn("Please log in before purchasing");
+    nav("/login", { replace: true });
+  }
 
   const placeOrder = async (e) => {
     e.preventDefault();
@@ -124,7 +91,6 @@ export default function PurchasePage() {
       });
       console.log(paymentStatus);
 
-      // setPayments(paymentStatus);
       window.location.href = paymentStatus.redirectUrl;
     } catch (error) {
       toast.error(error.response?.data.message);
