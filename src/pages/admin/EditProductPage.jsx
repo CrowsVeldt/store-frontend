@@ -13,15 +13,19 @@ import { toast } from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { convertToBase64 } from "../../utils/fileFuncs";
 import CategoryInput from "../../components/inputs/CategoryInput";
+import axios from "../../api/axios";
 
-/* 
-    Product Schema
-      product_name
-      product_description
-      product_price
-      product_image
-      catagories: [categoryid 1... 2... etc]
-  */
+export const loader = async () => {
+  try {
+    const categories = await axios.get("/categories");
+    const sortedCategories = categories.data.categories.sort(
+      (a, b) => a.category_name > b.category_name
+    );
+    return sortedCategories;
+  } catch (error) {
+    console.error("Error occured in category fetch" + error);
+  }
+};
 
 export default function EditProduct() {
   const location = useLocation();
@@ -35,9 +39,7 @@ export default function EditProduct() {
     product_description: product?.product_description,
     product_price: product?.product_price,
     product_image: product?.product_image,
-    //     categories: [
-    //     categories(?)
-    //     ],
+    categories: product?.categories,
   });
 
   const handleSaveButton = async () => {
@@ -46,8 +48,6 @@ export default function EditProduct() {
         `/admin/${product._id}/edit/product`,
         values
       );
-
-      console.log(response);
 
       setValues((prevValues) => {
         return { ...prevValues, ...response?.data?.product };
@@ -64,16 +64,6 @@ export default function EditProduct() {
     }
   };
 
-  //   const handleNestedChange = (e) => {
-  //     setValues((prevValues) => ({
-  //       ...prevValues,
-  //       user_address: {
-  //         ...prevValues?.user_address,
-  //         [e.target.name]: e?.target?.value,
-  //       },
-  //     }));
-  //   };
-
   const handleFileUpload = async (e) => {
     const file = e?.target?.files[0];
     const base64image = await convertToBase64(file);
@@ -85,6 +75,39 @@ export default function EditProduct() {
       ...prevValues,
       [e?.target?.name]: e?.target?.value,
     }));
+  };
+
+  const setCategories = (cat) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      categories: cat.sort((a, b) => a.category_name > b.category_name),
+    }));
+  };
+
+  const handleCategoryChange = (newCategory, oldCategory) => {
+    const categoryIndex = values.categories.indexOf(oldCategory);
+
+    const categories = values.categories.toSpliced(
+      categoryIndex,
+      1,
+      newCategory
+    );
+
+    setCategories(categories);
+  };
+
+  const addCategoryInput = () => {
+    const cat = values.categories[values.categories.length - 1];
+    const categories = [...values.categories, cat];
+
+    setCategories(categories);
+  };
+
+  const removeCategoryInput = (value) => {
+    const index = values.categories.indexOf(value);
+    const categories = values.categories.toSpliced(index, 1);
+
+    setCategories(categories);
   };
 
   return (
@@ -148,10 +171,23 @@ export default function EditProduct() {
             onChange={handleChange}
           />
         </Text>
-        {/* categories input */}
-        {product.categories.map((category, index) => {
-          <CategoryInput state={category._id} key={index} />;
-        })}
+        {values.categories
+          .sort((a, b) => a.category_name > b.category_name)
+          .map((category, index) => {
+            return (
+              <CategoryInput
+                state={{
+                  category,
+                  handleCategoryChange,
+                  removeCategoryInput,
+                }}
+                key={index}
+              />
+            );
+          })}
+        <Button colorScheme="teal" w={"50px"} onClick={addCategoryInput}>
+          +
+        </Button>
       </Stack>
       <Button mt={4} colorScheme="teal" onClick={handleSaveButton}>
         Save

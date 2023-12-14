@@ -44,9 +44,7 @@ export default function AdminProducts() {
                 <Td>{<Image src={item.product_image} />}</Td>
                 <Td>
                   {item.categories.map((cat, index) => {
-                    return (
-                      <Text key={index}>{cat.category.category_name}</Text>
-                    );
+                    return <Text key={index}>{cat.category_name}</Text>;
                   })}
                 </Td>
               </Tr>

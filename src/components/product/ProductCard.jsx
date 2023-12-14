@@ -50,9 +50,9 @@ export default function ({ product, addToCart }) {
                     borderRadius="14%"
                     textDecorationLine={"underline"}
                     fontSize="lg"
-                    key={item?.category._id}
+                    key={item._id}
                   >
-                    {item.category.category_name}
+                    {item.category_name}
                   </Text>
                 ))}
               </VStack>
