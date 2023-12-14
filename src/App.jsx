@@ -17,6 +17,7 @@ import AutoLogin from "./utils/AutoLogin";
 import Blog from "./pages/public/Blog.jsx";
 import Catalog from "./pages/public/Products/Catalog";
 import Contact from "./pages/public/Contact";
+import EditUser from "./pages/admin/EditUserPage.jsx";
 import ErrorPage from "./pages/ErrorElement/ErrorElement.jsx";
 import ForgotPassword from "./pages/public/ForgotPassword.jsx";
 import Login from "./pages/public/Login.jsx";
@@ -65,6 +66,11 @@ function App() {
           <Route path="/support" element={<SupportPage />} />
           <Route path="/password-reset" element={<PasswordReset />} />
           <Route path="/forgot-password/:id" element={<ForgotPassword />} />
+          <Route
+            path="/product/:productId"
+            element={<SingleProductPage />}
+            loader={productLoader}
+          />
           <Route element={<RequireAuth user={user} />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/orders" element={<UserOrders />} />
@@ -76,13 +82,9 @@ function App() {
               />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="edit/user" element={<EditUser />} />
             </Route>
           </Route>
-          <Route
-            path="/product/:productId"
-            element={<SingleProductPage />}
-            loader={productLoader}
-          />
           <Route path="*" element={<div>Not Found 404</div>} />
         </Route>
       </Route>

@@ -5,8 +5,10 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
   Text,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { formatPhone } from "../../utils/utilFuncs";
 
 export default function UserItem({ user }) {
@@ -16,8 +18,16 @@ export default function UserItem({ user }) {
         <AccordionItem>
           <h2>
             <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                {`User ID: ${user._id}`}
+              <Button as={Link} to={`/admin/edit/user`} state={user}>
+                Edit
+              </Button>
+              <Box
+                as="span"
+                flex="1"
+                display={"flex"}
+                justifyContent={"center"}
+              >
+                <Text>{`User ID: ${user._id}`}</Text>
               </Box>
               <AccordionIcon />
             </AccordionButton>
