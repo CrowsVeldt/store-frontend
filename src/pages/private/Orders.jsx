@@ -1,4 +1,4 @@
-import { Box, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { Box, Heading, Text, UnorderedList } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";

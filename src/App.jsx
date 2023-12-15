@@ -17,6 +17,10 @@ import AutoLogin from "./utils/AutoLogin";
 import Blog from "./pages/public/Blog.jsx";
 import Catalog from "./pages/public/Products/Catalog";
 import Contact from "./pages/public/Contact";
+import EditOrder from "./pages/admin/EditOrderPage.jsx";
+import EditProduct, {
+  loader as categoryLoader,
+} from "./pages/admin/EditProductPage.jsx";
 import EditUser from "./pages/admin/EditUserPage.jsx";
 import ErrorPage from "./pages/ErrorElement/ErrorElement.jsx";
 import ForgotPassword from "./pages/public/ForgotPassword.jsx";
@@ -82,6 +86,12 @@ function App() {
               />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="edit/order" element={<EditOrder />} />
+              <Route
+                path="edit/product"
+                loader={categoryLoader}
+                element={<EditProduct />}
+              />
               <Route path="edit/user" element={<EditUser />} />
             </Route>
           </Route>

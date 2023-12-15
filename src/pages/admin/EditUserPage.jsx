@@ -36,7 +36,7 @@ export default function EditUser() {
   const handleSaveButton = async () => {
     try {
       const response = await axiosPrivateRoute.patch(
-        `/admin/${user._id}/edit`,
+        `/admin/${user._id}/edit/user`,
         values
       );
 
