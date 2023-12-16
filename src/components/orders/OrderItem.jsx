@@ -5,17 +5,23 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
   Text,
 } from "@chakra-ui/react";
+import {Link} from "react-router-dom"
 import { formatPhone } from "../../utils/utilFuncs";
 
 export default function OrderItem({ order }) {
+  console.log(order)
   return (
     <Box>
       <Accordion defaultIndex={[1]} allowMultiple>
         <AccordionItem>
           <h2>
             <AccordionButton>
+              <Button as={Link} to={`/admin/edit/order`} state={order}>
+                Edit
+              </Button>
               <Box as="span" flex="1" textAlign="left">
                 {`Order ID: ${order._id}`}
               </Box>
