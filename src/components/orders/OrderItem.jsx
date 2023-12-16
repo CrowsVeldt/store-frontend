@@ -12,7 +12,6 @@ import {Link} from "react-router-dom"
 import { formatPhone } from "../../utils/utilFuncs";
 
 export default function OrderItem({ order }) {
-  console.log(order)
   return (
     <Box>
       <Accordion defaultIndex={[1]} allowMultiple>

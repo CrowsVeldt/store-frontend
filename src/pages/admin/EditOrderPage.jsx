@@ -1,16 +1,17 @@
 import {
-  Avatar,
   Box,
   Button,
+  Flex,
   Heading,
   Input,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import OrderProductItem from "../../components/orders/OrderProductItem";
 
 export default function EditOrder() {
   const location = useLocation();
@@ -22,14 +23,14 @@ export default function EditOrder() {
     _id: order?._id,
     user: order?.user,
     customer_details: {
-      customer_name: order?.customer_details.customer_name,
-      customer_email: order?.customer_details.customer_email,
-      customer_phone: order?.customer_details.customer_phone,
+      customer_name: order?.customer_details?.customer_name,
+      customer_email: order?.customer_details?.customer_email,
+      customer_phone: order?.customer_details?.customer_phone,
       customer_address: {
-        city: order?.customer_details.city,
-        street: order?.customer_details.street,
-        building: order?.customer_details.building,
-        apartment: order?.customer_details.apartment,
+        city: order?.customer_details?.customer_address?.city || "",
+        street: order?.customer_details?.customer_address?.street || "",
+        building: order?.customer_details?.customer_address?.building || "",
+        apartment: order?.customer_details?.customer_address?.apartment || "",
       },
     },
     total_price: order?.total_price,
@@ -39,7 +40,7 @@ export default function EditOrder() {
       last_digits: order?.payment_details.last_digits,
       transaction_date: order?.payment_details.transaction_date,
     },
-    products: order?.products, // product, RTP, quantity // not sure how to do this one
+    products: order?.products, 
     order_status: order?.order_status,
     created_at: order?.created_at,
     order_number: order?.order_number,
@@ -88,162 +89,96 @@ export default function EditOrder() {
     }));
   };
 
+  const handleQuantityChange = (e, index) => {
+    const products = values.products
+    const prodToChange = products[index]
+    prodToChange.quantity = parseInt(e)
+    const newProducts = products.toSpliced(index, 1, prodToChange)
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      products: newProducts
+
+    }));
+  };
+
+  const handleRemoveProduct = (e, product) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      products: prevValues.products.filter(i => i.product !== product)
+    }))
+  }
+
+  useEffect(() => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      total_price: (prevValues.products.reduce((acc, prod) => acc += prod.RTP * prod.quantity, 0))
+      }))
+  }, [values])
+
   return (
     <Box minH="65vh" py={10} px={4}>
       <Stack spacing={2}>
-        <Heading as="h3" fontSize="lg">
+        <Heading as="h3" fontSize="xl" textDecoration={"underline"}>
           Order Details
         </Heading>
-        <Text fontSize="md">
-          <Text as="span" fontWeight="bold">
-            User:{" "}
-          </Text>
-          <Input
-            name="user"
-            type="text"
-            placeholder={`${values.user ? values.user : "User"}`}
-            value={values?.user || ""}
-            onChange={handleChange}
-          />
+        <Text as="span" fontWeight="bold">
+          User Id: {values?.user}
         </Text>
-        <Heading as="h3" fontSize="lg">
+        <Heading as="h3" fontSize="md" textDecoration={"underline"}>
           Customer Details
         </Heading>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Customer Name:{" "}
+        <Text as="span" fontWeight="bold">
+          Name:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_name}
           </Text>
-          <Input
-            name="customer_name"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_name
-                ? values.customer_details.customer_name
-                : "Customer Name"
-            }`}
-            value={values.customer_details.customer_name || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Customer Email:{" "}
+        <Text as="span" fontWeight="bold">
+          Email:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_email}
           </Text>
-          <Input
-            name="customer_email"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_email
-                ? values.customer_details.customer_email
-                : "Customer Email"
-            }`}
-            value={values.customer_details.customer_email || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Customer Phone:{" "}
+        <Text as="span" fontWeight="bold">
+          Phone:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_phone}
           </Text>
-          <Input
-            name="customer_phone"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_phone
-                ? values.customer_details.customer_phone
-                : "Customer Phone"
-            }`}
-            value={values.customer_details.customer_phone || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Heading as="h3" fontSize="lg">
-          Customer Address
+        <Heading as="h4" fontSize="lg">
+          Address
         </Heading>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            City:{" "}
+        <Text as="span" fontWeight="bold">
+          City/Town:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_address.city || "None"}
           </Text>
-          <Input
-            name="city"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_address.city
-                ? values.customer_details.customer_address.city
-                : "City"
-            }`}
-            value={values.customer_details.customer_address.city || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Street:{" "}
+        <Text as="span" fontWeight="bold">
+          Street:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_address.street || "None"}
           </Text>
-          <Input
-            name="street"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_address.street
-                ? values.customer_details.customer_address.street
-                : "Street"
-            }`}
-            value={values.customer_details.customer_address.street || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Building:{" "}
+        <Text as="span" fontWeight="bold">
+          Building #:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_address.building || "None"}
           </Text>
-          <Input
-            name="building"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_address.building
-                ? values.customer_details.customer_address.building
-                : "Building"
-            }`}
-            value={values.customer_details.customer_address.building || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Apartment:{" "}
+        <Text as="span" fontWeight="bold">
+          Apartment #:{" "}
+          <Text as={"span"} fontWeight={"normal"}>
+            {values?.customer_details.customer_address.apartment || "None"}
           </Text>
-          <Input
-            name="apartment"
-            type="text"
-            placeholder={`${
-              values.customer_details.customer_address.apartment
-                ? values.customer_details.customer_address.apartment
-                : "Apartment"
-            }`}
-            value={values.customer_details.customer_address.apartment || ""}
-            onChange={handleNestedChange}
-          />
         </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Total Price:{" "}
-          </Text>
-          <Input
-            name="total_price"
-            type="text"
-            placeholder={`${
-              values.total_price ? values.total_price : "Total Price"
-            }`}
-            value={values.total_price || ""}
-            onChange={handleNestedChange}
-          />
-        </Text>
-        <Heading as="h3" fontSize="lg">
+        <Heading as="h4" fontSize="md" textDecoration={"underline"}>
           Payment Details
         </Heading>
-        <Text>
-          <Text as="span" fontWeight="bold">
-            Terminal Number:{" "}
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
+            Terminal Number:
           </Text>
           <Input
             name="terminal_number"
@@ -256,9 +191,9 @@ export default function EditOrder() {
             value={values.payment_details.terminal_number || ""}
             onChange={handleNestedChange}
           />
-        </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
+        </Flex>
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
             Transaction Number:{" "}
           </Text>
           <Input
@@ -272,9 +207,9 @@ export default function EditOrder() {
             value={values.payment_details.transaction_number || ""}
             onChange={handleNestedChange}
           />
-        </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
+        </Flex>
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
             Last Digits:{" "}
           </Text>
           <Input
@@ -288,9 +223,9 @@ export default function EditOrder() {
             value={values.payment_details.last_digits || ""}
             onChange={handleNestedChange}
           />
-        </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
+        </Flex>
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
             Transaction Date:{" "}
           </Text>
           <Input
@@ -304,10 +239,27 @@ export default function EditOrder() {
             value={values.payment_details.transaction_date || ""}
             onChange={handleNestedChange}
           />
-        </Text>
-        {/* make OrderProductInput component -- product, RTP, quantity */}
-        <Text>
-          <Text as="span" fontWeight="bold">
+        </Flex>
+        {values?.products.map((product, index) => {
+          return (
+            <OrderProductItem
+              product={product?.product}
+              RTP={product?.RTP}
+              quantity={values?.products[index]?.quantity}
+              index={index}
+              handleQuantity={handleQuantityChange}
+              removeProduct={ handleRemoveProduct }
+              key={index}
+            />
+          );
+        })}
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
+            Total Price: {values.total_price}
+          </Text>
+        </Flex>
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
             Order Status:{" "}
           </Text>
           <Input
@@ -317,11 +269,11 @@ export default function EditOrder() {
               values.order_status ? values.order_status : "Order Status"
             }`}
             value={values.order_status || ""}
-            onChange={handleNestedChange}
+            onChange={handleChange}
           />
-        </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
+        </Flex>
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
             Created At:{" "}
           </Text>
           <Input
@@ -331,11 +283,11 @@ export default function EditOrder() {
               values.created_at ? values.created_at : "Created At"
             }`}
             value={values.created_at || ""}
-            onChange={handleNestedChange}
+            onChange={handleChange}
           />
-        </Text>
-        <Text>
-          <Text as="span" fontWeight="bold">
+        </Flex>
+        <Flex>
+          <Text fontWeight="bold" w={"14rem"}>
             Order Number:{" "}
           </Text>
           <Input
@@ -345,9 +297,9 @@ export default function EditOrder() {
               values.order_number ? values.order_number : "Order Number"
             }`}
             value={values.order_number || ""}
-            onChange={handleNestedChange}
+            onChange={handleChange}
           />
-        </Text>
+        </Flex>
       </Stack>
       <Button mt={4} colorScheme="teal" onClick={handleSaveButton}>
         Save
