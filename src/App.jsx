@@ -87,12 +87,12 @@ function App() {
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="edit/order" element={<EditOrder />} />
+              <Route path="edit/user" element={<EditUser />} />
               <Route
                 path="edit/product"
                 loader={categoryLoader}
                 element={<EditProduct />}
               />
-              <Route path="edit/user" element={<EditUser />} />
             </Route>
           </Route>
           <Route path="*" element={<div>Not Found 404</div>} />

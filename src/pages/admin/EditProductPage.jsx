@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Heading,
+  Image,
   Input,
   Stack,
   Text,
@@ -112,10 +113,11 @@ export default function EditProduct() {
 
   return (
     <Box minH="65vh" py={10} px={4}>
-      <Avatar
+      <Image
         name={values?.product_name}
         src={values?.product_image}
-        size={"xl"}
+        h={"200px"}
+        w={"200px"}
       />
       <Input
         name="product_image"
