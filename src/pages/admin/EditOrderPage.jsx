@@ -49,7 +49,7 @@ export default function EditOrder() {
   const handleSaveButton = async () => {
     try {
       const response = await axiosPrivateRoute.patch(
-        `/admin/${order._id}/edit/order`,
+        `/orders/${order._id}/admin/edit`,
         values
       );
 
@@ -114,7 +114,7 @@ export default function EditOrder() {
       ...prevValues,
       total_price: (prevValues.products.reduce((acc, prod) => acc += prod.RTP * prod.quantity, 0))
       }))
-  }, [values])
+  }, [values.products])
 
   return (
     <Box minH="65vh" py={10} px={4}>

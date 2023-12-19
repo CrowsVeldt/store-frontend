@@ -45,7 +45,7 @@ export default function EditProduct() {
   const handleSaveButton = async () => {
     try {
       const response = await axiosPrivateRoute.patch(
-        `/admin/${product._id}/edit/product`,
+        `/products/${product._id}/admin/edit`,
         values
       );
 

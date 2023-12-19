@@ -9,7 +9,7 @@ export default function AdminOrders() {
 
   useEffect(() => {
     (async () => {
-      const fetch = await privateRoutes.get("/admin/orders");
+      const fetch = await privateRoutes.get("/orders/admin");
       setOrders([...fetch.data.data]);
     })();
   }, []);
