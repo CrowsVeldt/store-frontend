@@ -78,9 +78,11 @@ export default function EditProduct() {
   };
 
   const setCategories = (cat) => {
+    const catSet = new Set(cat)
+
     setValues((prevValues) => ({
       ...prevValues,
-      categories: cat.sort((a, b) => a.category_name > b.category_name),
+      categories: Array.from(catSet),
     }));
   };
 
@@ -97,7 +99,7 @@ export default function EditProduct() {
   };
 
   const addCategoryInput = () => {
-    const cat = values.categories[values.categories.length - 1];
+    const cat = {_id: "", category_name: "0"}
     const categories = [...values.categories, cat];
 
     setCategories(categories);
@@ -173,7 +175,6 @@ export default function EditProduct() {
           />
         </Text>
         {values?.categories
-          .sort((a, b) => a.category_name > b.category_name)
           .map((category) => {
             return (
               <CategoryInput
