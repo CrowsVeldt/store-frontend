@@ -3,7 +3,6 @@ import {
   Button,
   Link as Chlink,
   Flex,
-  Input,
   NumberInput,
   NumberInputField,
   NumberInputStepper,

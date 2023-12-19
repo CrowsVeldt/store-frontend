@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Heading,
@@ -173,9 +172,9 @@ export default function EditProduct() {
             onChange={handleChange}
           />
         </Text>
-        {values.categories
+        {values?.categories
           .sort((a, b) => a.category_name > b.category_name)
-          .map((category, index) => {
+          .map((category) => {
             return (
               <CategoryInput
                 state={{
@@ -183,7 +182,7 @@ export default function EditProduct() {
                   handleCategoryChange,
                   removeCategoryInput,
                 }}
-                key={index}
+                key={category._id}
               />
             );
           })}
