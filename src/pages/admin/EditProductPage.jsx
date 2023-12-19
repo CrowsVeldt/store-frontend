@@ -42,11 +42,15 @@ export default function EditProduct() {
     categories: product?.categories,
   });
 
+  const uniqueArray = (arrayOfObjects) =>  arrayOfObjects.filter((object,index) => index === arrayOfObjects.findIndex(obj => JSON.stringify(obj) === JSON.stringify(object)));
+
   const handleSaveButton = async () => {
     try {
+      const updates = {...values, categories: uniqueArray(values.categories)}
+
       const response = await axiosPrivateRoute.patch(
         `/products/${product._id}/admin/edit`,
-        values
+        updates
       );
 
       setValues((prevValues) => {
