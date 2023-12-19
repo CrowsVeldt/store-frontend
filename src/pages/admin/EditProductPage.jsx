@@ -78,7 +78,7 @@ export default function EditProduct() {
   };
 
   const setCategories = (cat) => {
-    const catSet = new Set(cat)
+    const catSet = new Set(cat);
 
     setValues((prevValues) => ({
       ...prevValues,
@@ -99,7 +99,7 @@ export default function EditProduct() {
   };
 
   const addCategoryInput = () => {
-    const cat = {_id: "", category_name: "0"}
+    const cat = { _id: "0", category_name: "0" };
     const categories = [...values.categories, cat];
 
     setCategories(categories);
@@ -110,6 +110,24 @@ export default function EditProduct() {
     const categories = values.categories.toSpliced(index, 1);
 
     setCategories(categories);
+  };
+
+  const categoryInputs = () => {
+
+    return values?.categories
+      .sort((a, b) => a.category_name > b.category_name)
+      .map((category, index) => {
+        return (
+          <CategoryInput
+            state={{
+              category,
+              handleCategoryChange,
+              removeCategoryInput,
+            }}
+            key={index + category._id}
+          />
+        );
+      });
   };
 
   return (
@@ -174,19 +192,7 @@ export default function EditProduct() {
             onChange={handleChange}
           />
         </Text>
-        {values?.categories
-          .map((category) => {
-            return (
-              <CategoryInput
-                state={{
-                  category,
-                  handleCategoryChange,
-                  removeCategoryInput,
-                }}
-                key={category._id}
-              />
-            );
-          })}
+        {categoryInputs()}
         <Button colorScheme="teal" w={"50px"} onClick={addCategoryInput}>
           +
         </Button>
