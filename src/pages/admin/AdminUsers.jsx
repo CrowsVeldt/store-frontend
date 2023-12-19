@@ -9,7 +9,7 @@ export default function AdminUsers() {
 
   useEffect(() => {
     (async () => {
-      const fetch = await privateRoutes.get("/admin/users");
+      const fetch = await privateRoutes.get("/users/admin");
       setUsers([...fetch.data.data]);
     })();
   }, []);
