@@ -1,17 +1,6 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Image,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import { useLoaderData, Link } from "react-router-dom";
+import { Box, Heading, Table, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import { useLoaderData } from "react-router-dom";
+import AdminProductItem from "../../components/product/AdminProductItem";
 
 export default function AdminProducts() {
   const getAllProducts = useLoaderData();
@@ -32,22 +21,10 @@ export default function AdminProducts() {
         <Tbody>
           {getAllProducts.map((item, index) => {
             return (
-              <Tr data-testid={"product-row"} key={index}>
-                <Button as={Link} to={"/admin/edit/product"} state={item}>
-                  Edit
-                </Button>
-                <Td>
-                  <Text>{item.product_name}</Text>{" "}
-                </Td>
-                <Td>{item.product_price}</Td>
-                <Td>{item.product_description}</Td>
-                <Td>{<Image src={item.product_image} />}</Td>
-                <Td>
-                  {item.categories.map((cat, index) => {
-                    return <Text key={index}>{cat.category_name}</Text>;
-                  })}
-                </Td>
-              </Tr>
+              <AdminProductItem
+                state={{ item, index }}
+                key={index + item.product_name}
+              />
             );
           })}
         </Tbody>

@@ -113,7 +113,6 @@ export default function EditProduct() {
   };
 
   const categoryInputs = () => {
-
     return values?.categories
       .sort((a, b) => a.category_name > b.category_name)
       .map((category, index) => {
