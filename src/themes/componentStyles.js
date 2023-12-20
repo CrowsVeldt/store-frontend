@@ -1,8 +1,6 @@
 export const navStyles = (menuOpen) => {
   return {
     display: [menuOpen ? "flex" : "none", "flex"],
-    // gap: 5,
-    // p: [2, 5, 7],
   };
 };
 
@@ -13,7 +11,6 @@ export const navButtonStyles = {
     borderColor: "black",
   },
 
-  width: "100%",
   fontSize: ["16px", "16px", "20px"],
   border: "2px transparent solid",
 };
