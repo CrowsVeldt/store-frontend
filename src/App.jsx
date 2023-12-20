@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import axios from "./api/axios.js";
 import { AuthContext } from "./context/AuthContext";
 import About from "./pages/public/About";
+import AddProduct from "./pages/admin/AddProductPage.jsx";
 import AdminOrders from "./pages/admin/AdminOrders.jsx";
 import AdminPage from "./pages/admin/AdminPage.jsx";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
@@ -92,6 +93,11 @@ function App() {
                 path="edit/product"
                 loader={categoryLoader}
                 element={<EditProduct />}
+              />
+              <Route
+                path="add/product"
+                loader={categoryLoader}
+                element={<AddProduct />}
               />
             </Route>
           </Route>
