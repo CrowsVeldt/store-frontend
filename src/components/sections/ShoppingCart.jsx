@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { CartContext } from "../../context/CartContext";
 import { navButtonStyles } from "../../themes/componentStyles";
 import CartEntry from "../product/CartEntry";

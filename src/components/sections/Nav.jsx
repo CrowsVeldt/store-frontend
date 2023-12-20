@@ -2,16 +2,14 @@ import {
   Avatar,
   Box,
   Button,
-  ButtonGroup,
   Flex,
   FormControl,
-  Link as Chlink,
   Icon,
   Text,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -36,14 +34,6 @@ export default function Nav() {
     setMenuOpen(!menuOpen);
   };
 
-  const NavButton = ({ children }) => {
-    return (
-      <Button sx={navButtonStyles} variant="outline">
-        {children}
-      </Button>
-    );
-  };
-
   return (
     <Box position="sticky" w="100%" top="0" zIndex="2" bg="twitter.200">
       <Button
@@ -54,66 +44,81 @@ export default function Nav() {
       >
         <Icon as={MenuIcon} />
       </Button>
+
       <Flex
+        w={"100vw"}
         justifyContent="space-between"
-        alignItems={["center"]}
+        alignItems={["start","center"]}
         direction={["column", "row"]}
         sx={navStyles(menuOpen)}
       >
-        <ButtonGroup w="35%">
-          <Chlink as={Link} to="/">
-            <NavButton>
-              <Icon as={HomeIcon} boxSize={[null, "2em"]} />
-            </NavButton>
-          </Chlink>
-        </ButtonGroup>
-        <ButtonGroup w="45%" flexDirection={["column", "row"]}>
-          {!user && (
-            <Chlink as={Link} to="/register">
-              <Button sx={navButtonStyles} variant="outline">
-                <Icon as={HowToRegIcon} fontSize={"3xl"} />
-                Register
-              </Button>
-            </Chlink>
-          )}
-          {!user && (
-            <Chlink as={Link} to="/login">
-              <Button sx={navButtonStyles} variant="outline">
-                <Icon ml={1} as={LoginIcon} fontSize={"3xl"} />
-                Login
-              </Button>
-            </Chlink>
-          )}
-          {user && (
-            <Chlink as={Link} to="/profile">
-              <Button sx={navButtonStyles} variant="outline">
-                <Avatar
-                  name={user?.user?.user_name}
-                  src={user?.user?.user_avatar}
-                  size={"sm"}
-                />
-                <Text ml={1}>{user?.user?.user_name}</Text>
-              </Button>
-            </Chlink>
-          )}
-          {isAdmin && (
-            <Chlink as={Link} to="/admin/products">
-              <Button sx={navButtonStyles} variant="outline">
-                <Icon ml={1} as={AdminIcon} fontSize={"3xl"} />
-                Admin
-              </Button>
-            </Chlink>
-          )}
-          {user && (
-            <Button sx={navButtonStyles} variant="outline" onClick={logout}>
-              <Icon as={LogoutIcon} fontSize={"3xl"} />
+        <Button
+          as={Link}
+          to={"/"}
+          sx={navButtonStyles}
+          variant={"outline"}
+          marginEnd={["none", "auto"]}
+        >
+          <Icon as={HomeOutlinedIcon} boxSize={["1.5em", "2em"]} />
+        </Button>
+        {isAdmin && (
+          <Button
+            as={Link}
+            to={"/admin/products"}
+            sx={navButtonStyles}
+            variant={"outline"}
+            marginEnd={"2"}
+          >
+            <Icon me={1} as={AdminIcon} fontSize={"3xl"} />
+            Admin
+          </Button>
+        )}
+        {user && (
+          <Flex direction={["column", "row"]} alignItems={["start", "center"]}>
+            <Button
+              as={Link}
+              to={"/profile"}
+              sx={navButtonStyles}
+              variant={"outline"}
+            >
+              <Avatar
+                name={user?.user?.user_name}
+                src={user?.user?.user_avatar}
+                size={"sm"}
+              />
+              <Text ms={1}>{user?.user?.user_name}</Text>
+            </Button>
+            <Button sx={navButtonStyles} variant={"outline"} onClick={logout}>
+              <Icon me={1} as={LogoutIcon} fontSize={"3xl"} />
               Logout
             </Button>
-          )}
-          <FormControl id="shopping-cart-modal-control">
-            <ShoppingCartModal id="shopping-cart-modal" />
-          </FormControl>
-        </ButtonGroup>
+          </Flex>
+        )}
+        {!user && (
+          <Flex direction={["column", "row"]} alignItems={["start", "center"]}>
+            <Button
+              as={Link}
+              to={"/register"}
+              sx={navButtonStyles}
+              variant={"outline"}
+            >
+              <Icon me={1} as={HowToRegIcon} fontSize={"3xl"} />
+              Register
+            </Button>
+            <Button
+              as={Link}
+              to={"/login"}
+              sx={navButtonStyles}
+              variant={"outline"}
+            >
+              <Icon me={1} as={LoginIcon} fontSize={"3xl"} />
+              Login
+            </Button>
+          </Flex>
+        )}
+        <FormControl id="shopping-cart-modal-control" w={"fit-content"}>
+          <ShoppingCartModal id="shopping-cart-modal" />
+        </FormControl>
       </Flex>
     </Box>
   );
