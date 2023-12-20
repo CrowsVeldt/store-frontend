@@ -110,9 +110,13 @@ export default function EditProduct() {
   };
 
   const removeCategoryInput = (value) => {
-    const index = values.categories.findIndex((cat) => value.category_name === cat.category_name)
-    const categories = values.categories.toSpliced(index, 1);
-    setCategories(categories);
+    if (values.categories.length > 1) {
+      const index = values.categories.findIndex(
+        (cat) => value.category_name === cat.category_name
+      );
+      const categories = values.categories.toSpliced(index, 1);
+      setCategories(categories);
+    } else return
   };
 
   const categoryInputs = () => {
