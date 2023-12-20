@@ -14,6 +14,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { convertToBase64 } from "../../utils/fileFuncs";
 import CategoryInput from "../../components/inputs/CategoryInput";
 import axios from "../../api/axios";
+import { uniqueObjectArray } from "../../utils/utilFuncs";
 
 export const loader = async () => {
   try {
@@ -42,11 +43,10 @@ export default function EditProduct() {
     categories: product?.categories,
   });
 
-  const uniqueArray = (arrayOfObjects) =>  arrayOfObjects.filter((object,index) => index === arrayOfObjects.findIndex(obj => JSON.stringify(obj) === JSON.stringify(object)));
-
   const handleSaveButton = async () => {
     try {
-      const updates = {...values, categories: uniqueArray(values.categories)}
+      const updates = {...values, categories: uniqueObjectArray(values.categories)}
+      updates.categories.sort((a,b) => a.category_name > b.category_name)
 
       const response = await axiosPrivateRoute.patch(
         `/products/${product._id}/admin/edit`,
@@ -110,9 +110,8 @@ export default function EditProduct() {
   };
 
   const removeCategoryInput = (value) => {
-    const index = values.categories.indexOf(value);
+    const index = values.categories.findIndex((cat) => value.category_name === cat.category_name)
     const categories = values.categories.toSpliced(index, 1);
-
     setCategories(categories);
   };
 
