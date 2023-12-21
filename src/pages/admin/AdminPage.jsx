@@ -29,7 +29,7 @@ export default function AdminPage() {
           to={"/admin/users"}
           isActive={true && activeButton === "users-button"}
         >
-          User
+          Users
         </Button>
         <Button
           as={Link}

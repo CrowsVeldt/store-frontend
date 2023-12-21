@@ -33,7 +33,6 @@ export default function EditProduct() {
   const product = location.state;
   const nav = useNavigate();
   const axiosPrivateRoute = useAxiosPrivate();
-  console.log(product.categories)
 
   const [values, setValues] = useState({
     _id: product._id,
@@ -46,11 +45,14 @@ export default function EditProduct() {
 
   const handleSaveButton = async () => {
     try {
-      const updates = {...values, categories: uniqueObjectArray(values.categories)}
-      updates.categories.sort((a,b) => a.category_name > b.category_name)
+      const updates = {
+        ...values,
+        categories: uniqueObjectArray(values.categories),
+      };
+      updates.categories.sort((a, b) => a.category_name > b.category_name);
 
       const response = await axiosPrivateRoute.patch(
-        `/products/${product._id}/admin/edit`,
+        `/products/admin/${product._id}/edit`,
         updates
       );
 
@@ -117,7 +119,7 @@ export default function EditProduct() {
       );
       const categories = values.categories.toSpliced(index, 1);
       setCategories(categories);
-    } else return
+    } else return;
   };
 
   const categoryInputs = () => {
