@@ -16,7 +16,6 @@ import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminUsers from "./pages/admin/AdminUsers.jsx";
 import AutoLogin from "./utils/AutoLogin";
 import Blog from "./pages/public/Blog.jsx";
-import Catalog from "./pages/public/Products/Catalog";
 import Contact from "./pages/public/Contact";
 import EditOrder from "./pages/admin/EditOrderPage.jsx";
 import EditProduct, {
@@ -28,8 +27,9 @@ import ForgotPassword from "./pages/public/ForgotPassword.jsx";
 import Login from "./pages/public/Login.jsx";
 import UserOrders from "./pages/private/Orders.jsx";
 import PasswordReset from "./pages/public/PasswordReset.jsx";
+import ProductCatalog from "./pages/public/Products/ProductCatalog";
 import Profile from "./pages/private/Profile";
-import PurchasePage from "./pages/public/PurchasePage.jsx";
+import CheckoutPage from "./pages/public/CheckoutPage.jsx";
 import Register from "./pages/public/Register";
 import RejectedPage from "./pages/public/RejectedPage.jsx";
 import RequireAuth from "./utils/RequireAuth";
@@ -59,10 +59,10 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
         <Route element={<AutoLogin />}>
-          <Route index loader={getAllProducts} element={<Catalog />} />
+          <Route index loader={getAllProducts} element={<ProductCatalog />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/purchase" element={<PurchasePage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/successful-payment" element={<SuccessPage />} />
           <Route path="/rejected-payment" element={<RejectedPage />} />
           <Route path="/contact" element={<Contact />} />
@@ -87,7 +87,11 @@ function App() {
               />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
-              <Route path="edit/order" element={<EditOrder />} />
+              <Route
+                path="edit/order"
+                loader={getAllProducts}
+                element={<EditOrder />}
+              />
               <Route path="edit/user" element={<EditUser />} />
               <Route
                 path="edit/product"

@@ -8,28 +8,26 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { AuthContext } from "../../context/AuthContext";
 
-export default function DeleteUserAlert(props) {
+export default function DeleteProductAlert({productId}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, setUser } = useContext(AuthContext);
   const cancelRef = React.useRef();
   const privateAxios = useAxiosPrivate();
 
-  const deleteUser = async () => {
+  const deleteProduct = async () => {
     try {
       const response = await privateAxios.delete(
-        `/users/customers/${user?.user?._id}`,
+        `/products/admin/${productId}/delete`,
         {
           withCredentials: true,
         }
       );
 
       if (response.status === 200) {
-        setUser(null);
+        //TODO: reload all products
         toast.success(response?.data.message);
       }
     } catch (error) {
@@ -40,44 +38,44 @@ export default function DeleteUserAlert(props) {
 
   return (
     <>
-      <Button id={props.id} mt={4} colorScheme="red" onClick={onOpen}>
-        Delete Account
+      <Button id={`delete-product-button-${productId}`} mt={4} colorScheme="red" onClick={onOpen} size={"xs"}>
+        Delete Product
       </Button>
 
       {isOpen && (
         <AlertDialog
-          id="delete-account-alert"
+          id="delete-product-alert"
           isOpen={isOpen}
           leastDestructiveRef={cancelRef}
           onClose={onClose}
         >
-          <AlertDialogOverlay id="delete-account-alert-overlay">
-            <AlertDialogContent id="delete-account-alert-content">
+          <AlertDialogOverlay id="delete-product-alert-overlay">
+            <AlertDialogContent id="delete-product-alert-content">
               <AlertDialogHeader
                 fontSize="lg"
                 fontWeight="bold"
-                id="delete-account-alert-header"
+                id="delete-product-alert-header"
               >
-                Delete Account
+                Delete Product
               </AlertDialogHeader>
 
-              <AlertDialogBody id="delete-account-alert-body">
+              <AlertDialogBody id="delete-product-alert-body">
                 Are you sure? You can't undo this action afterwards.
               </AlertDialogBody>
 
-              <AlertDialogFooter id="delete-account-alert-footer">
+              <AlertDialogFooter id="delete-product-alert-footer">
                 <Button
                   ref={cancelRef}
                   onClick={onClose}
-                  id="delete-account-alert-cancel"
+                  id="delete-product-alert-cancel"
                 >
                   Cancel
                 </Button>
                 <Button
-                  id="delete-account-alert-action"
+                  id="delete-product-alert-action"
                   colorScheme="red"
                   onClick={() => {
-                    deleteUser(user.email);
+                    deleteProduct(productId)
                     onClose();
                   }}
                   ml={3}

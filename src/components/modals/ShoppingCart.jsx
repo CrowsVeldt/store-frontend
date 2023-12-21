@@ -1,6 +1,8 @@
 import {
   Badge,
   Button,
+  Grid,
+  GridItem,
   Icon,
   Modal,
   ModalCloseButton,
@@ -9,14 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Table,
   useDisclosure,
-  Tbody,
-  Tfoot,
-  Thead,
-  Td,
-  Th,
-  Tr,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -70,30 +65,31 @@ export default function ShoppingCartModal() {
           <ModalHeader>Shopping cart</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Table colorScheme="black">
-              <Thead>
-                <Tr>
-                  <Th>Name</Th>
-                  <Th>Price</Th>
-                  <Th>Image</Th>
-                  <Th>Quantity</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
+            <Grid textAlign={"center"}>
+              <GridItem>
+                <Grid templateColumns={"repeat(4 ,1fr)"}>
+                  <GridItem>Name</GridItem>
+                  <GridItem>Price</GridItem>
+                  <GridItem>Image</GridItem>
+                  <GridItem>Quantity</GridItem>
+                </Grid>
+              </GridItem>
+              <GridItem>
                 {cartItems.map((item, index) => {
                   return <CartEntry product={item} key={index} />;
                 })}
-              </Tbody>
-              <Tfoot>
-                <Tr>
+              </GridItem>
+              <GridItem>
+                <Grid templateColumns={"repeat(4, 1fr)"}>
+                  <GridItem></GridItem>
                   {cartItems ? (
-                    <Td>{`Total: $${totalPrice}`}</Td>
+                    <GridItem>{`Total: $${totalPrice}`}</GridItem>
                   ) : (
-                    <Td>total: $0</Td>
+                    <GridItem>total: $0</GridItem>
                   )}
-                </Tr>
-              </Tfoot>
-            </Table>
+                </Grid>
+              </GridItem>
+            </Grid>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -102,7 +98,7 @@ export default function ShoppingCartModal() {
             <Button
               onClick={() => {
                 onClose();
-                nav("/purchase");
+                nav("/checkout");
               }}
             >
               Checkout

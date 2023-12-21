@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Link as Chlink } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const navButtonStyles = {
@@ -14,36 +14,34 @@ const navButtonStyles = {
 
 export default function Footer() {
   return (
-    <Box bottom="0" left="0" width="100%" bg="twitter.200">
-      <ButtonGroup w={"35%"}>
-        <Chlink as={Link} to="/about">
-          <Button
-            sx={navButtonStyles}
-            variant="outline"
-            onClick={() => console.log("about")}
-          >
-            About
-          </Button>
-        </Chlink>
+    <Flex justify={"center"} bottom="0" left="0" width="100vw" bg="twitter.200">
+      <Flex
+        justify={"space-around"}
+        w={["100%", "80%"]}
+        id="footer-button-container"
+      >
+        <Button
+          as={Link}
+          to="/about"
+          sx={navButtonStyles}
+          variant="outline"
+          onClick={() => console.log("about")}
+        >
+          About
+        </Button>
 
-        <Chlink as={Link} to="/contact">
-          <Button sx={navButtonStyles} variant="outline">
-            Contact
-          </Button>
-        </Chlink>
+        <Button as={Link} to="/contact" sx={navButtonStyles} variant="outline">
+          Contact
+        </Button>
 
-        <Chlink as={Link} to="/blog">
-          <Button sx={navButtonStyles} variant="outline">
-            Blog
-          </Button>
-        </Chlink>
+        <Button as={Link} to="/blog" sx={navButtonStyles} variant="outline">
+          Blog
+        </Button>
 
-        <Chlink as={Link} to="/support">
-          <Button sx={navButtonStyles} variant="outline">
-            Tech support
-          </Button>
-        </Chlink>
-      </ButtonGroup>
-    </Box>
+        <Button as={Link} to="/support" sx={navButtonStyles} variant="outline">
+          Support
+        </Button>
+      </Flex>
+    </Flex>
   );
 }

@@ -34,7 +34,7 @@ export default function ({ product, addToCart }) {
                 {product.product_name}
               </Heading>
               <Text
-                w={250}
+                minW={"80%"}
                 fontSize="xs"
                 overflowY="hidden"
                 height={150}

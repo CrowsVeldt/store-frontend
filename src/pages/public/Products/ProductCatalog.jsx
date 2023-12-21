@@ -15,7 +15,7 @@ import localforage from "localforage";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { CartContext } from "../../../context/CartContext";
 import ProductCard from "../../../components/product/ProductCard";
-import Pagination from "./Pagination";
+import Pagination from "./ProductPagination";
 
 export const productsPerPage = 6;
 
