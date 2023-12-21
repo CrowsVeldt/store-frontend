@@ -33,7 +33,6 @@ export default function EditProduct() {
   const product = location.state;
   const nav = useNavigate();
   const axiosPrivateRoute = useAxiosPrivate();
-  console.log(product.categories)
 
   const [values, setValues] = useState({
     _id: product._id,
