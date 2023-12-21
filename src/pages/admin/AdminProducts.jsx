@@ -1,5 +1,5 @@
-import { Box, Heading, Table, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
+import { Box, Button, Heading, Table, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import { Link, useLoaderData } from "react-router-dom";
 import AdminProductItem from "../../components/product/AdminProductItem";
 
 export default function AdminProducts() {
@@ -8,6 +8,7 @@ export default function AdminProducts() {
   return (
     <Box>
       <Heading>Products</Heading>
+      <Button as={Link} to={"/admin/add/product"}>Add new product</Button>
       <Table>
         <Thead>
           <Tr>

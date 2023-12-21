@@ -227,7 +227,7 @@ export default function Profile() {
           Edit
         </Button>
       )}
-      {isEditing && <DeleteUserAlert id="Delete user popup" />}
+      <DeleteUserAlert id="Delete user popup" />
 
       <Chlink
         as={Link}

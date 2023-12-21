@@ -1,4 +1,5 @@
 import {
+  Button,
   Flex,
   Image,
   LinkBox,
@@ -8,6 +9,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import DeleteProductAlert from "../info/DeleteProductAlert";
 
 export default function AdminProductItem({ state }) {
   const { index, item } = state;
@@ -28,6 +30,9 @@ export default function AdminProductItem({ state }) {
               <Text>(Edit)</Text>
             </LinkOverlay>
           </LinkBox>
+        </Flex>
+        <Flex>
+          <DeleteProductAlert productId={item._id} />
         </Flex>
       </Td>
       <Td>{item.product_price}</Td>

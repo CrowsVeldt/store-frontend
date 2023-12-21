@@ -28,44 +28,45 @@ export const loader = async () => {
   }
 };
 
-export default function EditProduct() {
+export default function AddProduct() {
   const location = useLocation();
-  const product = location.state;
   const nav = useNavigate();
   const axiosPrivateRoute = useAxiosPrivate();
 
   const [values, setValues] = useState({
-    _id: product._id,
-    product_name: product?.product_name,
-    product_description: product?.product_description,
-    product_price: product?.product_price,
-    product_image: product?.product_image,
-    categories: product?.categories,
+    product_name: "",
+    product_description: "",
+    product_price: "",
+    product_image: "",
+    categories: [{ _id: "", category_name: "None" }],
   });
 
   const handleSaveButton = async () => {
+    console.log("save");
     try {
-      const updates = {
+      const data = {
         ...values,
         categories: uniqueObjectArray(values.categories),
       };
-      updates.categories.sort((a, b) => a.category_name > b.category_name);
 
-      const response = await axiosPrivateRoute.patch(
-        `/products/admin/${product._id}/edit`,
-        updates
-      );
+      console.log(data);
+
+      data.categories.sort((a, b) => a.category_name > b.category_name);
+
+      const response = await axiosPrivateRoute.post(`/products/admin`, data);
+
+      console.log(response);
 
       setValues((prevValues) => {
         return { ...prevValues, ...response?.data?.product };
       });
 
-      nav("/admin/edit/product", {
+      nav("/admin/add/product", {
         state: response.data.product,
         replace: true,
       });
 
-      toast.success(`Updated ${values?.product_name} details`);
+      toast.success(`Added Product: ${values?.product_name}`);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
