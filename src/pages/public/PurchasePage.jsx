@@ -36,9 +36,9 @@ export default function PurchasePage() {
     apartment: user?.user?.user_address.apartment || "",
   });
   const [paymentValues, setPaymentValues] = useState({
-    credit: "",
-    expDate: "",
-    cvv: "",
+    credit: "4111111111111111",
+    expDate: "12/28",
+    cvv: "123",
   });
   const cartDetails = cartItems.map(
     ({ product_image, ...restOfItem }) => restOfItem
@@ -60,7 +60,6 @@ export default function PurchasePage() {
       const {
         data: { paymentStatus },
       } = await axios.post("/payments/pay", {
-        userDetails,
         cartDetails,
         cartTotal: totalPrice,
         creditNumber: credit,
@@ -188,19 +187,19 @@ export default function PurchasePage() {
               mb={2}
             />
             <Input
-              value={values.street}
-              isRequired
-              onChange={handleChange}
-              name="street"
-              placeholder="Street Address"
-              mb={2}
-            />
-            <Input
               value={values.city}
               isRequired
               onChange={handleChange}
               name="city"
               placeholder="City"
+              mb={2}
+            />
+            <Input
+              value={values.street}
+              isRequired
+              onChange={handleChange}
+              name="street"
+              placeholder="Street Address"
               mb={2}
             />
             <Input
@@ -225,7 +224,9 @@ export default function PurchasePage() {
         <Box mb={4}>
           <Flex direction="column" mb={4}>
             <Input
-              value={paymentValues.credit}
+              value={
+                paymentValues.credit ? paymentValues.credit : "4111111111111111"
+              }
               isRequired
               onChange={handleCreditChange}
               name="credit"
@@ -235,7 +236,7 @@ export default function PurchasePage() {
               max={16}
             />
             <Input
-              value={paymentValues.expDate}
+              value={paymentValues.expDate ? paymentValues.expDate : "12/28"}
               isRequired
               onChange={handleCreditChange}
               name="expDate"
@@ -243,7 +244,7 @@ export default function PurchasePage() {
               mb={2}
             />
             <Input
-              value={paymentValues.cvv}
+              value={paymentValues.cvv ? paymentValues.cvv : "123"}
               isRequired
               onChange={handleCreditChange}
               name="cvv"
