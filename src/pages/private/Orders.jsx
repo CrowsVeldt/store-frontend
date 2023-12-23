@@ -2,7 +2,7 @@ import { Box, Heading, Text, UnorderedList } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import OrderItem from "../../components/orders/OrderItem";
+import OrdersList from "../../components/orders/OrdersList";
 
 export default function UserOrders() {
   const { user } = useContext(AuthContext);
@@ -22,10 +22,9 @@ export default function UserOrders() {
     <Box>
       <Heading>User Orders</Heading>
       <UnorderedList>
-        {(orders.length > 0 &&
-          orders.map((order, index) => {
-            return <OrderItem order={order} key={index} />;
-          })) || <Text>No orders found</Text>}
+        {(orders.length > 0 && (
+          <OrdersList orders={orders} editable={false} />
+        )) || <Text>No orders found</Text>}
       </UnorderedList>
     </Box>
   );

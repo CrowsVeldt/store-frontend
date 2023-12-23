@@ -1,7 +1,7 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import OrderItem from "../../components/orders/OrderItem";
+import OrdersList from "../../components/orders/OrdersList";
 
 export default function AdminOrders() {
   const privateRoutes = useAxiosPrivate();
@@ -17,9 +17,9 @@ export default function AdminOrders() {
   return (
     <Box>
       <Heading>Orders</Heading>
-      {orders.map((order, index) => {
-        return <OrderItem order={order} key={index} />;
-      })}
+      {(orders.length > 0 && (
+        <OrdersList orders={orders} editable={true} />
+      )) || <Text>No orders found</Text>}
     </Box>
   );
 }

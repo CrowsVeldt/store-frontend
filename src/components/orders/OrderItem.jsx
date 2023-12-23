@@ -8,19 +8,21 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 import { formatPhone } from "../../utils/utilFuncs";
 
-export default function OrderItem({ order }) {
+export default function OrderItem({ order, editable }) {
   return (
     <Box>
       <Accordion defaultIndex={[1]} allowMultiple>
         <AccordionItem>
           <h2>
             <AccordionButton>
-              <Button as={Link} to={`/admin/edit/order`} state={order}>
-                Edit
-              </Button>
+              {editable && (
+                <Button as={Link} to={`/admin/edit/order`} state={order}>
+                  Edit
+                </Button>
+              )}
               <Box as="span" flex="1" textAlign="left">
                 {`Order ID: ${order._id}`}
               </Box>

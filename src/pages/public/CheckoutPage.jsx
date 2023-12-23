@@ -16,7 +16,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "../../api/axios";
 import { toast } from "react-toastify";
 
-export default function PurchasePage() {
+export default function CheckoutPage() {
   const { cartItems, setCartItems } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const nav = useNavigate();
