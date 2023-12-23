@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
 
-export default function Pagination({
+export default function ProductPagination({
   currentPage,
   productsPerPage,
   totalProducts,

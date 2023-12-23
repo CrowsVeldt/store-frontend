@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   Button,
   Flex,
   FormControl,
@@ -9,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -17,7 +16,7 @@ import MenuIcon from "@mui/icons-material/MenuOutlined";
 import AdminIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { AuthContext } from "../../context/AuthContext";
 import useLogout from "../../hooks/useLogout";
-import ShoppingCartModal from "./ShoppingCart";
+import ShoppingCartModal from "../modals/ShoppingCart";
 import {
   hamburgerStyles,
   navButtonStyles,
@@ -35,7 +34,14 @@ export default function Nav() {
   };
 
   return (
-    <Box position="sticky" w="100%" top="0" zIndex="2" bg="twitter.200">
+    <Flex
+      justify={[null, "center"]}
+      position="sticky"
+      w="100%"
+      top="0"
+      zIndex="2"
+      bg="twitter.200"
+    >
       <Button
         onClick={handleMenuClick}
         sx={hamburgerStyles}
@@ -46,9 +52,9 @@ export default function Nav() {
       </Button>
 
       <Flex
-        w={"100vw"}
+        w={["100%", null, null, "80%"]}
         justifyContent="space-between"
-        alignItems={["start","center"]}
+        alignItems={["start", "center"]}
         direction={["column", "row"]}
         sx={navStyles(menuOpen)}
       >
@@ -120,6 +126,6 @@ export default function Nav() {
           <ShoppingCartModal id="shopping-cart-modal" />
         </FormControl>
       </Flex>
-    </Box>
+    </Flex>
   );
 }

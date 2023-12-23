@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import UserItem from "../../components/users/UserItem";
