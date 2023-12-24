@@ -75,9 +75,9 @@ export default function ShoppingCartModal() {
                 </Grid>
               </GridItem>
               <GridItem>
-                {cartItems.map((item, index) => {
-                  return <CartEntry product={item} key={index} />;
-                })}
+                  {cartItems.map((item, index) => {
+                    return <CartEntry product={item} key={index} />;
+                  })}
               </GridItem>
               <GridItem>
                 <Grid templateColumns={"repeat(4, 1fr)"}>

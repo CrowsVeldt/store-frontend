@@ -111,7 +111,7 @@ const Login = () => {
         <FormLabel>Email Address</FormLabel>
         <Input
           name="user_email"
-          type="text"
+          type="email"
           placeholder="Type in your Email"
           value={values.user_email}
           onChange={handleChange}
