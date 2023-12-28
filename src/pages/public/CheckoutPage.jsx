@@ -263,7 +263,7 @@ export default function CheckoutPage() {
           />
         </Flex>
       </Box>
-      <Button type="submit" colorScheme="teal">
+      <Button type="submit" onClick={placeOrder} colorScheme="teal">
         Place Order
       </Button>
     </Box>
