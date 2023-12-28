@@ -1,3 +1,4 @@
+import axios from "../../../api/axios"
 import {
   Box,
   CircularProgress,
@@ -12,6 +13,7 @@ import {
 import { useState, useContext, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import localforage from "localforage";
+import LoadingCircle from "../../../components/info/LoadingCircle"
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { CartContext } from "../../../context/CartContext";
 import ProductCard from "../../../components/product/ProductCard";
@@ -20,12 +22,20 @@ import Pagination from "./ProductPagination";
 export const productsPerPage = 6;
 
 export default function Catalog() {
-  const initialProducts = useLoaderData();
-  const [products, setProducts] = useState([...initialProducts]);
-  const [data, setData] = useState(false);
   const { addToCart } = useContext(CartContext);
+  const [initialProducts, setInitialProducts] = useState([])
+  const [products, setProducts] = useState([...initialProducts]);
+  const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+   (async () => {
+      const response = await axios.get("/products/customers/all");
+      setInitialProducts(response.data.products)
+      setIsLoading(false);
+    })();
+  }, [])
 
   useEffect(() => {
     localforage.getItem(`main page`, (err, val) => {
@@ -51,7 +61,9 @@ export default function Catalog() {
 
   useEffect(() => {
     if (products.length > 0) {
-      setData(true);
+      setIsLoading(false)
+    } else {
+      setIsLoading(true)
     }
   }, [products]);
 
@@ -97,7 +109,7 @@ export default function Catalog() {
         onPageChange={handlePageChange}
       />
       <Divider />
-      {data ? (
+      {!isLoading ? (
         <Flex
           direction={["column", "column", "row", "row"]}
           flexWrap="wrap"
@@ -114,19 +126,7 @@ export default function Catalog() {
             </ProductCard>
           ))}
         </Flex>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          Loading... &nbsp;
-          <CircularProgress isIndeterminate />
-        </Box>
-      )}
+      ) : <LoadingCircle />}
       <Pagination
         currentPage={currentPage}
         productsPerPage={productsPerPage}

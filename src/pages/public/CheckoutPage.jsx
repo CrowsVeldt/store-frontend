@@ -85,7 +85,6 @@ export default function CheckoutPage() {
           }),
         },
       });
-      console.log(paymentStatus);
 
       window.location.href = paymentStatus.redirectUrl;
     } catch (error) {

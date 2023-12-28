@@ -1,3 +1,4 @@
+import axios from "../../api/axios"
 import {
   Button,
   Link as Chlink,
@@ -8,10 +9,9 @@ import {
   NumberDecrementStepper,
   NumberIncrementStepper,
   Text,
-  Box,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function OrderProductItem(props) {
   const {
@@ -22,12 +22,19 @@ export default function OrderProductItem(props) {
     handleQuantity,
     removeProduct,
   } = props;
+  const [products, setProducts] = useState([])
 
-  const products = useLoaderData();
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get("/products/customers/all");
+      setProducts(response.data.products);
+    })();
+  }, []);
 
-  const name = products.find(
+
+  const name = products.length > 0 ? products.find(
     (product) => product._id === productId
-  ).product_name;
+  ).product_name : "";
 
   return (
     <Flex w={"100%"} direction={["column", "column", "row"]} align={["start", "start", "center"]}>
