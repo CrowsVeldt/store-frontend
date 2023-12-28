@@ -48,7 +48,7 @@ export const getAllProducts = async () => {
     return products;
   } catch (error) {
     toast.error("Failed to load products");
-    return console.error(error);
+    return null;
   }
 };
 

@@ -16,7 +16,8 @@ export default function SupportPage(props) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const data = {
         user_name: name,
@@ -40,7 +41,7 @@ export default function SupportPage(props) {
   };
 
   return (
-    <Box onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <Heading id="support-header">Tech Support</Heading>
       <FormControl isRequired id="support-form-name-control">
         <FormLabel htmlFor="support-form-name-input">Name</FormLabel>
@@ -53,6 +54,7 @@ export default function SupportPage(props) {
       <FormControl isRequired id="support-form-email-control">
         <FormLabel htmlFor="support-form-email-input">Email</FormLabel>
         <Input
+          type="email"
           id="support-form-email-input"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
@@ -75,6 +77,6 @@ export default function SupportPage(props) {
           Submit
         </Button>
       </FormControl>
-    </Box>
+    </form>
   );
 }
