@@ -57,7 +57,7 @@ export default function CheckoutPage() {
       const {
         data: { paymentStatus },
       } = await axios.post("/payments/pay", {
-        cartDetails,
+        // cartDetails,
         cartTotal: totalPrice,
         creditNumber: credit,
         expDate,
