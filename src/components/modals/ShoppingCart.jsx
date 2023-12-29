@@ -12,6 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -75,9 +76,9 @@ export default function ShoppingCartModal() {
                 </Grid>
               </GridItem>
               <GridItem>
-                  {cartItems.map((item, index) => {
-                    return <CartEntry product={item} key={index} />;
-                  })}
+                {cartItems.map((item, index) => {
+                  return <CartEntry product={item} key={index} />;
+                })}
               </GridItem>
               <GridItem>
                 <Grid templateColumns={"repeat(4, 1fr)"}>
@@ -95,14 +96,16 @@ export default function ShoppingCartModal() {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button
-              onClick={() => {
-                onClose();
-                nav("/checkout");
-              }}
-            >
-              Checkout
-            </Button>
+            {cartItems.length > 0 && (
+              <Button
+                onClick={() => {
+                  onClose();
+                  nav("/checkout");
+                }}
+              >
+                Checkout
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
