@@ -14,11 +14,13 @@ export default function UserOrders() {
   useEffect(() => {
     (async () => {
       try {
-        const userOrders = await usePrivateRoutes.get(`/orders/${user?.user?._id}/orders`);
+        const userOrders = await usePrivateRoutes.get(
+          `/orders/${user?.user?._id}/orders`
+        );
         setOrders(userOrders.data.orders);
-        setIsLoading(false)
+        setIsLoading(false);
       } catch (err) {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -26,14 +28,14 @@ export default function UserOrders() {
   return (
     <Box>
       <Heading>User Orders</Heading>
-      {!isLoading ? (
+      {isLoading ? (
+        <LoadingCircle />
+      ) : orders.length > 0 ? (
         <UnorderedList>
-          {(orders.length > 0 && (
-            <OrdersList orders={orders} editable={false} />
-          )) || <Text>No orders found</Text>}
+          <OrdersList orders={orders} editable={false} />
         </UnorderedList>
       ) : (
-        <LoadingCircle />
+        <Text>No Orders Found</Text>
       )}
     </Box>
   );

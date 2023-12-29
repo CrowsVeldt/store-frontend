@@ -20,11 +20,13 @@ export default function AdminOrders() {
   return (
     <Box>
       <Heading>Orders</Heading>
-      {(!isLoading ? (
+      {isLoading ? (
+        <LoadingCircle />
+      ) : orders.length > 0 ? (
         <OrdersList orders={orders} editable={true} />
       ) : (
-        <LoadingCircle />
-      )) || <Text>No orders found</Text>}
+        <Text>No Orders Found</Text>
+      )}
     </Box>
   );
 }

@@ -1,7 +1,6 @@
 import axios from "../../../api/axios";
 import {
   Box,
-  CircularProgress,
   Divider,
   Flex,
   Heading,
@@ -9,9 +8,9 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Text,
 } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
-import { useLoaderData } from "react-router-dom";
 import localforage from "localforage";
 import LoadingCircle from "../../../components/info/LoadingCircle";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -27,7 +26,6 @@ export default function Catalog() {
   const [products, setProducts] = useState([...initialProducts]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResultsEmpty, setSearchResultsEmpty] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -63,11 +61,6 @@ export default function Catalog() {
     );
 
     setProducts(searchResults);
-    if (searchResults.length > 0) {
-      setSearchResultsEmpty(false);
-    } else {
-      setSearchResultsEmpty(true);
-    }
   }, [searchTerm, initialProducts]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -115,9 +108,7 @@ export default function Catalog() {
 
       {isLoading ? (
         <LoadingCircle />
-      ) : searchResultsEmpty ? (
-        <Heading>No Items Found</Heading>
-      ) : (
+      ) : currentProducts.length > 0 ? (
         <Flex
           direction={["column", "column", "row", "row"]}
           flexWrap="wrap"
@@ -134,6 +125,8 @@ export default function Catalog() {
             </ProductCard>
           ))}
         </Flex>
+      ) : (
+        <Text>No Products Found</Text>
       )}
       <Pagination
         currentPage={currentPage}

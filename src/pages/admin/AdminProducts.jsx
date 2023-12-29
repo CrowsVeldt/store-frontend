@@ -40,7 +40,9 @@ export default function AdminProducts() {
           Categories
         </GridItem>
       </Grid>
-      {!isLoading ? (
+      {isLoading ? (
+        <LoadingCircle />
+      ) : products.length > 0 ? (
         products.map((item, index) => {
           return (
             <AdminProductItem
@@ -50,7 +52,7 @@ export default function AdminProducts() {
           );
         })
       ) : (
-        <LoadingCircle />
+        <Text>No Products Found</Text>
       )}
     </Box>
   );

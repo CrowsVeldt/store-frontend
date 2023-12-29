@@ -13,7 +13,6 @@ export default function AdminUsers() {
     (async () => {
       const fetch = await privateRoutes.get("/users/admin");
       setUsers([...fetch.data.data]);
-
       setIsLoading(false);
     })();
   }, []);
@@ -21,12 +20,14 @@ export default function AdminUsers() {
   return (
     <Box>
       <Heading>Users</Heading>
-      {!isLoading ? (
+      {isLoading ? (
+        <LoadingCircle />
+      ) : users.length > 0 ? (
         users.map((user, index) => {
           return <UserItem user={user} key={index} />;
         })
       ) : (
-        <LoadingCircle />
+        <Heading>No Users Found</Heading>
       )}
     </Box>
   );
