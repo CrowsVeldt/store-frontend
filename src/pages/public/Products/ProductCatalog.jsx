@@ -1,4 +1,4 @@
-import axios from "../../../api/axios"
+import axios from "../../../api/axios";
 import {
   Box,
   CircularProgress,
@@ -13,7 +13,7 @@ import {
 import { useState, useContext, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import localforage from "localforage";
-import LoadingCircle from "../../../components/info/LoadingCircle"
+import LoadingCircle from "../../../components/info/LoadingCircle";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { CartContext } from "../../../context/CartContext";
 import ProductCard from "../../../components/product/ProductCard";
@@ -23,19 +23,25 @@ export const productsPerPage = 6;
 
 export default function Catalog() {
   const { addToCart } = useContext(CartContext);
-  const [initialProducts, setInitialProducts] = useState([])
+  const [initialProducts, setInitialProducts] = useState([]);
   const [products, setProducts] = useState([...initialProducts]);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchResultsEmpty, setSearchResultsEmpty] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-   (async () => {
-      const response = await axios.get("/products/customers/all");
-      setInitialProducts(response.data.products)
-      setIsLoading(false);
+    (async () => {
+      try {
+        const response = await axios.get("/products/customers/all");
+        setInitialProducts(response.data.products);
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(true);
+        console.log(err);
+      }
     })();
-  }, [])
+  }, []);
 
   useEffect(() => {
     localforage.getItem(`main page`, (err, val) => {
@@ -57,15 +63,12 @@ export default function Catalog() {
     );
 
     setProducts(searchResults);
-  }, [searchTerm, initialProducts]);
-
-  useEffect(() => {
-    if (products.length > 0) {
-      setIsLoading(false)
+    if (searchResults.length > 0) {
+      setSearchResultsEmpty(false);
     } else {
-      setIsLoading(true)
+      setSearchResultsEmpty(true);
     }
-  }, [products]);
+  }, [searchTerm, initialProducts]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -109,7 +112,12 @@ export default function Catalog() {
         onPageChange={handlePageChange}
       />
       <Divider />
-      {!isLoading ? (
+
+      {isLoading ? (
+        <LoadingCircle />
+      ) : searchResultsEmpty ? (
+        <Heading>No Items Found</Heading>
+      ) : (
         <Flex
           direction={["column", "column", "row", "row"]}
           flexWrap="wrap"
@@ -126,7 +134,7 @@ export default function Catalog() {
             </ProductCard>
           ))}
         </Flex>
-      ) : <LoadingCircle />}
+      )}
       <Pagination
         currentPage={currentPage}
         productsPerPage={productsPerPage}
