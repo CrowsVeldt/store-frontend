@@ -40,18 +40,6 @@ import SingleProductPage, {
 import SuccessPage from "./pages/public/SuccessPage.jsx";
 import SupportPage from "./pages/public/Support.jsx";
 
-export const getAllProducts = async () => {
-  try {
-    const {
-      data: { products },
-    } = await axios.get("/products/customers/all");
-    return products;
-  } catch (error) {
-    toast.error("Failed to load products");
-    return null;
-  }
-};
-
 function App() {
   const { user } = useContext(AuthContext);
 
@@ -59,7 +47,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
         <Route element={<AutoLogin />}>
-          <Route index loader={getAllProducts} element={<ProductCatalog />} />
+          <Route index element={<ProductCatalog />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/checkout" element={<CheckoutPage />} />
@@ -82,14 +70,12 @@ function App() {
             <Route path="/admin" element={<AdminPage />}>
               <Route
                 path="products"
-                loader={getAllProducts}
                 element={<AdminProducts />}
               />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
               <Route
                 path="edit/order"
-                loader={getAllProducts}
                 element={<EditOrder />}
               />
               <Route path="edit/user" element={<EditUser />} />

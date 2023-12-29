@@ -1,9 +1,21 @@
+import axios from "../../api/axios";
 import { Box, Button, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import AdminProductItem from "../../components/product/AdminProductItem";
+import LoadingCircle from "../../components/info/LoadingCircle";
 
 export default function AdminProducts() {
-  const getAllProducts = useLoaderData();
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get("/products/customers/all");
+      setProducts(response.data.products);
+      setIsLoading(false);
+    })();
+  }, []);
 
   return (
     <Box>
@@ -28,14 +40,18 @@ export default function AdminProducts() {
           Categories
         </GridItem>
       </Grid>
-      {getAllProducts.map((item, index) => {
-        return (
-          <AdminProductItem
-            state={{ item, index }}
-            key={index + item.product_name}
-          />
-        );
-      })}
+      {!isLoading ? (
+        products.map((item, index) => {
+          return (
+            <AdminProductItem
+              state={{ item, index }}
+              key={index + item.product_name}
+            />
+          );
+        })
+      ) : (
+        <LoadingCircle />
+      )}
     </Box>
   );
 }
