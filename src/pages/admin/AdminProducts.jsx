@@ -1,7 +1,7 @@
 import axios from "../../api/axios";
 import { Box, Button, Grid, GridItem, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AdminProductItem from "../../components/product/AdminProductItem";
 import LoadingCircle from "../../components/info/LoadingCircle";
 

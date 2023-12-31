@@ -75,6 +75,13 @@ const ProductPage = () => {
             <Text fontWeight="bold" mb={2}>
               $ {product.product_price}
             </Text>
+
+            {product.categories.map((cat, index) => {
+              console.log(cat)
+              return (
+                <Text key={index + cat.category_name}>{cat.category_name}</Text>
+              )
+            })}
             <Divider mb={2} />
             <Flex>
               <Button onClick={increment}>+</Button>
