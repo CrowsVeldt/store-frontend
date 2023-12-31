@@ -30,13 +30,13 @@ const Login = () => {
       setValues((prevValues) => ({
         ...prevValues,
         user_email: "demo-user@email.com",
-        user_password: "asd",
+        user_password: "asdfgh123",
       }));
     } else {
       setValues((prevValues) => ({
         ...prevValues,
         user_email: "demo-admin@email.com",
-        user_password: "asd",
+        user_password: "asdfgh123",
       }));
     }
   };

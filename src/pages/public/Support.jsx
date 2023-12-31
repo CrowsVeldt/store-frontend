@@ -66,6 +66,7 @@ export default function SupportPage(props) {
           id="support-form-message-input"
           placeholder="What can we help with?"
           onChange={(e) => setMessage(e.target.value)}
+          maxLength={500}
         />
       </FormControl>
       <FormControl id="support-form-submit-control">
