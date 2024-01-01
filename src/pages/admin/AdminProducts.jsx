@@ -17,6 +17,11 @@ export default function AdminProducts() {
     })();
   }, []);
 
+  const reload = async () => {
+      const response = await axios.get("/products/customers/all");
+      setProducts(response.data.products);
+  }
+
   return (
     <Box>
       <Heading>Products</Heading>
@@ -46,7 +51,7 @@ export default function AdminProducts() {
         products.map((item, index) => {
           return (
             <AdminProductItem
-              state={{ item, index }}
+              state={{ item, index, reload }}
               key={index + item.product_name}
             />
           );

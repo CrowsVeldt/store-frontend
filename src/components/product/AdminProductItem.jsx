@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import DeleteProductAlert from "../modals/DeleteProductAlert";
 
 export default function AdminProductItem({ state }) {
-  const { index, item } = state;
+  const { index, item, reload } = state;
 
   return (
     <GridItem data-testid={"product-row"} key={index}>
@@ -39,7 +39,7 @@ export default function AdminProductItem({ state }) {
               <Text>(Edit)</Text>
             </LinkOverlay>
           </LinkBox>
-          <DeleteProductAlert productId={item._id} />
+          <DeleteProductAlert state={{ productId: item._id, reload }} />
         </GridItem>
         <GridItem
           w={["80vw", "80vw", `${80 / 5}vw`]}

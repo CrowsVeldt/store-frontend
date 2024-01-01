@@ -8,13 +8,14 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-export default function DeleteProductAlert({productId}) {
+export default function DeleteProductAlert({ state }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  const { productId, reload } = state;
+  const cancelRef = useRef();
   const privateAxios = useAxiosPrivate();
 
   const deleteProduct = async () => {
@@ -27,18 +28,24 @@ export default function DeleteProductAlert({productId}) {
       );
 
       if (response.status === 200) {
-        //TODO: reload all products
+        reload();
         toast.success(response?.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error(err.response?.data.message);
+      toast.error(error.response?.data.message);
     }
   };
 
   return (
     <>
-      <Button id={`delete-product-button-${productId}`} mt={4} colorScheme="red" onClick={onOpen} size={"xs"}>
+      <Button
+        id={`delete-product-button-${productId}`}
+        mt={4}
+        colorScheme="red"
+        onClick={onOpen}
+        size={"xs"}
+      >
         Delete Product
       </Button>
 
@@ -75,7 +82,7 @@ export default function DeleteProductAlert({productId}) {
                   id="delete-product-alert-action"
                   colorScheme="red"
                   onClick={() => {
-                    deleteProduct(productId)
+                    deleteProduct(productId);
                     onClose();
                   }}
                   ml={3}
