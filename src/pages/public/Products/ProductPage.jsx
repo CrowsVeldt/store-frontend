@@ -77,7 +77,6 @@ const ProductPage = () => {
             </Text>
 
             {product.categories.map((cat, index) => {
-              console.log(cat)
               return (
                 <Text key={index + cat.category_name}>{cat.category_name}</Text>
               )
