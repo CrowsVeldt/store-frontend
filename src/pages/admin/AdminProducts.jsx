@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-import { Box, Button, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AdminProductItem from "../../components/product/AdminProductItem";
@@ -9,18 +9,17 @@ export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      const response = await axios.get("/products/customers/all");
+  const reload = async () => {
+      setIsLoading(true)
+      const response = await axios.get("/products/customers/all")
       setProducts(response.data.products);
-      setIsLoading(false);
-    })();
+      setIsLoading(false)
+  }
+
+  useEffect(() => {
+      reload()
   }, []);
 
-  const reload = async () => {
-      const response = await axios.get("/products/customers/all");
-      setProducts(response.data.products);
-  }
 
   return (
     <Box>
